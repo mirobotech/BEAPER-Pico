@@ -5,15 +5,17 @@ February 8, 2025
 Draws multiple screens of graphics primitives using MicroPython's frame buffer
 and counts the number of graphical objects of each type drawn per second.
 
-Uses the LCD.py driver module adapted from Russ Hughes' st7789mpy.py MicroPython
+Uses the LCD.py driver module adapted from Russ Hughes' st7789py.py MicroPython
 ST7789 driver library. (https://github.com/russhughes/st7789py_mpy)
 
 Required files:
     LCDconfig_Nano.py, or
     LCDconfig_Pico.py - low-level hardware configuration file for each circuit
-    LCD.py - LCD driver module that extends the MicroPhthon framebuffer
+    
+    LCD.py - LCD driver module that extends the MicroPython framebuffer
+    
     NotoSansDisplay_24.py - Noto Sans Display font converted from TrueType
-        using Russ Hughes' write_font_converter.py program
+        using Russ Hughes' write_font_converter.py program 
  
 """
 
