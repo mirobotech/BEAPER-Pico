@@ -1,12 +1,12 @@
 """
 BEAPER Pico Breakout
-Updated: March 1, 2025
+Updated: April 21, 2025
 
 A pico-sized Breakout game made for BEAPER Pico: https://mirobo.tech/beaper
 
 This game requires the following modules be copied to your device:
 
-    LCDconfig_Pico.py - low-level hardware configuration file for BEAPER Pico
+    LCDconfig_Pico.py - LCD hardware configuration file for BEAPER Pico
     
     LCD.py - LCD driver module that extends the MicroPython framebuffer
     
@@ -267,6 +267,7 @@ while(True):
             msg_x = lcd_middle - lcd.write_width(message, doto20) // 2
             lcd.write("BREAKOUT!!", msg_x, message_row, doto20, lcd.YELLOW)
             lcd.update()
+            BEEPER.duty_u16(0)
             time.sleep(2)
             ball_x_velocity = 0
             ball_y_velocity = 0
