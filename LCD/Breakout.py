@@ -1,12 +1,12 @@
 """
 BEAPER Pico Breakout
-Updated: April 21, 2025
+Updated: May 12, 2025
 
 A pico-sized Breakout game made for BEAPER Pico: https://mirobo.tech/beaper
 
 This game requires the following modules be copied to your device:
 
-    LCDconfig_Pico.py - LCD hardware configuration file for BEAPER Pico
+    LCDconfig_Pico.py - low-level hardware configuration file for BEAPER Pico
     
     LCD.py - LCD driver module that extends the MicroPython framebuffer
     
@@ -81,6 +81,7 @@ lives_message = "Lives: "
 message_row = lcd.height // 2
 lcd_middle = lcd.width // 2
 
+# Calculate brick colour from rainbow gradient
 def rainbow_rgb(color1, color2, t):
     return (
         int(color1[0] * (1 - t) + color2[0] * t),
@@ -95,6 +96,7 @@ def get_rainbow(t):
     # print(i, low, high, rainbow_rgb(low, high, i % 1))
     return rainbow_rgb(low, high, i % 1)
 
+# Brick class attributes define each brick
 class Brick:
     def __init__(self, x, y, width, height, color):
         self.x1 = x
@@ -113,7 +115,7 @@ class Brick:
 def map(value, in_min, in_max, out_min, out_max):
     return int((value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
 
-# Create array of bricks
+# Create the array of bricks
 brick_width = lcd.width // COLUMNS - MARGIN
 bricks = []
 for row in range(ROWS):
@@ -149,6 +151,7 @@ lcd.write(message, msg_x, message_row, doto20, lcd.YELLOW)
 lcd.ellipse(msg_x + 10, message_row + 34, 8, 8, ball_color, True)
 lcd.write("Start", msg_x + 30, message_row + 24, doto20, lcd.YELLOW)
 
+# Update LCD every 2 frames on BEAPER Pico 
 skip = 2
 
 while(True):
@@ -156,11 +159,11 @@ while(True):
     lcd.rect(paddle_x - half_paddle_w, paddle_y, paddle_width, paddle_height, bg_color, True)
     lcd.rect(ball_x - 2, ball_y - 2, 4, 4, bg_color, True)
 
-    # Calculate analog pot controlled paddle position
+    # Control paddle position using BEAPER potentiometer
     half_paddle_w = paddle_width // 2
     paddle_x = map(RV1.read_u16(), 0, 65535, 0 + half_paddle_w, lcd.width - half_paddle_w)
     
-    # Calculate button controlled paddle position
+    # Control paddle position using BEAPER buttons
     # if buttons.left and buttons.left.value() == 0:
     #     if paddle_x - half_paddle_w >= 2:
     #         paddle_x -= 2
