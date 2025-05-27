@@ -4,7 +4,7 @@ BEAPER Pico LCD Configuration for 1.54" 240x240 LCD
 Adapted from st7789py_mpy by Russ Hughes:
 https://github.com/russhughes/st7789py_mpy
 
-Updated April 21, 2025
+Updated: May 27, 2025
 """
 
 from machine import Pin, SPI
@@ -20,7 +20,7 @@ def config(rotation=3):
     Configures and returns an instance of the ST7789 display driver.
 
     Parameters:
-        rotation (int): The rotation of the display. BEAPER LCD orientation is 3.
+        rotation (int): The rotation of the display. (3 is upright on BEAPER LCD)
 
     Returns:
         LCD: An instance of the ST7789 LCD display driver.
@@ -31,8 +31,7 @@ def config(rotation=3):
         ( b'\x13', None, 0),        # NORON - Normal display mode on
         ( b'\x20', None, 0),        # INVOFF - Display inversion off
         ( b'\x26', b'\x01', 0),     # GAMSET - Gamma set curve 1 (g2.2)
-        #( b'\x26', b'\x02', 0),    # GAMSET - Gamma set curve 2 (g1.8)
-        ( b'\xb0', b'\x00\xf8', 0), # RAMCTRL - Swap byte endian order
+        ( b'\xb0', b'\x00\xf8', 0), # RAMCTRL - Swap endian byte order
         ( b'\x3a', b'\x55', 5),     # COLMOD - 16 bit per pixel (RGB565) color mode
         ( b'\xc0', b'\x3c', 0),     # LCMCTRL - Mirrorring control
         ( b'\x29', b'\x00', 0),     # DISPON - Turn the display on
@@ -46,7 +45,7 @@ def config(rotation=3):
     )
 
     return lcd.LCD(
-        SPI(0, baudrate=60000000, miso=None),
+        SPI(0, baudrate=40000000, miso=None),
         240,
         240,
         reset=None,
