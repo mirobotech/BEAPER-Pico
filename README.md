@@ -10,3 +10,4 @@ This repository contains Introductory Programming Activities for the [mirobo.tec
 * BEAPER-Pico-Intro-2.py - Variable and constant programming, including the creation of a toggle button and a two-player rapid-clicker game.
 * BEAPER-Pico-Intro-3.py - Loops, including while and for loops, and an introduction to PWM.
 * BEAPER-Pico-Intro-4.py - Functions, including parameter passing and an Arduino-like tone() function.
+* BEAPER-Pico-Intro-5.py - Analog input, print output for debugging, f-string formatting, and a map() function.
