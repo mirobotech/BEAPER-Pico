@@ -2,7 +2,7 @@
 
 ## BEAPER Pico – Beginner Electronics and Programming Educational Robot for Raspberry Pi Pico
 
-This repository contains Introductory Programming Activities for the [mirobo.tech BEAPER Pico](https://mirobo.tech/beaper) circuit.
+This repository contains Introductory Programming Activities an LCD module, and example LCD display programs including a Breakout game for the [mirobo.tech BEAPER Pico](https://mirobo.tech/beaper) circuit.
 
 ## Introductory Programming Activities
 
