@@ -78,7 +78,7 @@ def noTone(duration=None):
     if duration is not None:
         time.sleep(duration)
 
-# Map function. Maps a value within the input range to the output range.
+# Maps a value within the input range to the output range.
 def map(value, in_min, in_max, out_min, out_max):
     return int((value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
 
