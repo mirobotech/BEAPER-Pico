@@ -1,8 +1,8 @@
 # BEAPER Pico Beginner Activities
 
 Beginner programming activities designed to introduce novices to microcontroller
-programming using MicroPython and Raspberry Pi Pico and the BEAPER Pico circuit,
-with the aim of providing learners with the requisite knowledge to creat their
+programming using MicroPython on Raspberry Pi Pico using the BEAPER Pico circuit,
+with the aim of providing learners with the requisite knowledge to create their
 own, fully-featured simple projects such as a Simon-style memory game, a reaction
 timer game, a room alarm, a servo driver, an autonomous line-following robot, or
 a simple classroom Sumo robot.
