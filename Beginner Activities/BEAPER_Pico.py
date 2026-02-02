@@ -1,13 +1,13 @@
 """
 BEAPER_Pico.py
-v1.0 Jan. 26, 2026
+January 30, 2026
 
 Board support module for the mirobo.tech BEAPER Pico circuit.
 
 This module provides simple helper functions for the BEAPER Pico
 circuit enabling beginners to focus on programming concepts first.
 
-Before getting started you should know:
+Before getting started with it you should know:
 - nothing here is hidden, or * magic *, or requires special libraries
 - the functions are just normal Python code to help you start learning
 - you're encouraged to modify the code to make it work better for you!
@@ -136,25 +136,25 @@ def right_motor_reverse():
 # BEAPER Pico Piezo Buzzer (BEAPER's beeper!)
 # ---------------------------------------------------------------------
 
-BEEPER_PIN = 14  # Also wired to 5V output header H8
+LS1_PIN = 14  # Also wired to 5V output header H8
 
 # Generate tones using PWM. Designed to mimic Arduino tone() functions.
-BEEPER = PWM(Pin(BEEPER_PIN))
+LS1 = PWM(Pin(LS1_PIN))
 
 # Start a tone at the supplied frequency (Hz), and optionally stop
-# the tone after the duration (s). (Blocking delay)
+# the tone after the duration (ms). (Blocking delay)
 def tone(frequency, duration=None):
-    BEEPER.freq(frequency)
-    BEEPER.duty_u16(32768)
+    LS1.freq(frequency)
+    LS1.duty_u16(32768)
     if duration is not None:
-        time.sleep(duration)
+        time.sleep_ms(duration)
         noTone()
 
-# Stop the tone. Optionally pause for the duration (s). (Blocking delay) 
+# Stop the tone. Optionally pause for the duration (ms). (Blocking delay) 
 def noTone(duration=None):
-    BEEPER.duty_u16(0)
+    LS1.duty_u16(0)
     if duration is not None:
-        time.sleep(duration)
+        time.sleep_ms(duration)
 
 
 # ---------------------------------------------------------------------
@@ -271,7 +271,7 @@ def sonar_distance_cm(max=300):
 H5_PIN = 20  # Servo 1
 H6_PIN = 21  # Servo 2
 H7_PIN = 22  # Servo 3
-H8_PIN = BEEPER_PIN
+H8_PIN = LS1_PIN
 
 SERVO1 = PWM(Pin(H5_PIN), freq=50, duty_u16=4916)
 SERVO2 = PWM(Pin(H6_PIN), freq=50, duty_u16=4916)
