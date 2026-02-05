@@ -13,16 +13,19 @@ import BEAPER_Pico as beaper  # Set up BEAPER Pico I/O
 import time
 
 # --- Program Constants ----------------
-BLINK_DELAY = 200
+BLINK_DELAY = const(200)
 
 # --- Program Variables ----------------
+SW2_pressed = False
 display_pattern = False
 
 beaper.pico_led_on()
 
 while True:
+    SW2_pressed = (beaper.SW2.value() == 0)
+    
     # Check button state
-    if beaper.SW5_pressed():
+    if SW2_pressed:
         display_pattern = True
         
     # LED pattern
@@ -49,7 +52,22 @@ while True:
 """
 Program Analysis Activities
 
-1.  
+1.  In the input activity:
+
+    beaper.SW2.value() == 0
+    
+    explain true condition...
+    
+2.  constants CAPS, variables lower
+    
+    explain what happens, predict how many times pattern will flash when button
+    is pressed
+
+2.  change BLINK_DELAY - easy
+
+3.  convert BLINK_DELAY to variable, set blink delay based on button
+
+4.   
 
 
 Programming Activities

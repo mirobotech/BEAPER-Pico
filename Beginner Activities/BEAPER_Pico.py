@@ -1,11 +1,12 @@
 """
 BEAPER_Pico.py
-January 30, 2026
+February 4, 2026
 
 Board support module for the mirobo.tech BEAPER Pico circuit.
 
-This module provides simple helper functions for the BEAPER Pico
-circuit enabling beginners to focus on programming concepts first.
+This module configures Raspberry Pi Pico's GPIO pins to use BEAPER
+Pico's built-in circuits and provides simple helper functions to
+enable beginners to focus on programming concepts first.
 
 Before getting started with it you should know:
 - nothing here is hidden, or * magic *, or requires special libraries
@@ -49,10 +50,10 @@ def pico_led_toggle():
 
 # All pushbutton switches use internal pull-up resistors (active LOW)
 
-SW2_PIN = 0   # SW2
-SW3_PIN = 1   # SW3
-SW4_PIN = 2   # SW4
-SW5_PIN = 3   # SW5
+SW2_PIN = const(0)  # SW2
+SW3_PIN = const(1)  # SW3
+SW4_PIN = const(2)  # SW4
+SW5_PIN = const(3)  # SW5
 
 SW2 = Pin(SW2_PIN, Pin.IN, Pin.PULL_UP)
 SW3 = Pin(SW3_PIN, Pin.IN, Pin.PULL_UP)
@@ -83,10 +84,10 @@ def SW5_pressed():
 # IMPORTANT: LED pins are shared with the motor controller. Using the
 # LEDs while the the motors are active will affect motor behavior!
 
-LED2_PIN = 10  # Motor 1A (Motor 1 = left motor)
-LED3_PIN = 11  # Motor 1B
-LED4_PIN = 12  # Motor 2A (Motor 2 = right motor)
-LED5_PIN = 13  # Motor 2B
+LED2_PIN = const(10)  # Motor 1A (Motor 1 = left motor)
+LED3_PIN = const(11)  # Motor 1B
+LED4_PIN = const(12)  # Motor 2A (Motor 2 = right motor)
+LED5_PIN = const(13)  # Motor 2B
 
 LED2 = Pin(LED2_PIN, Pin.OUT)
 LED3 = Pin(LED3_PIN, Pin.OUT)
@@ -136,7 +137,7 @@ def right_motor_reverse():
 # BEAPER Pico Piezo Buzzer (BEAPER's beeper!)
 # ---------------------------------------------------------------------
 
-LS1_PIN = 14  # Also wired to 5V output header H8
+LS1_PIN = const(14)  # Also wired to 5V output header H8
 
 # Generate tones using PWM. Designed to mimic Arduino tone() functions.
 LS1 = PWM(Pin(LS1_PIN))
@@ -163,9 +164,9 @@ def noTone(duration=None):
 
 # IMPORTANT: On-board analog jumpers must be used to select analog devices.
 
-ADC0_PIN = 26  # Ambient light sensor Q4 OR floor sensor Q1
-ADC1_PIN = 27  # Pot RV1 OR line sensor Q2
-ADC2_PIN = 28  # Pot RV2 OR floor/line sensor Q3
+ADC0_PIN = const(26)  # Ambient light sensor Q4 OR floor sensor Q1
+ADC1_PIN = const(27)  # Pot RV1 OR line sensor Q2
+ADC2_PIN = const(28)  # Pot RV2 OR floor/line sensor Q3
 
 # BEAPER Pico analog inputs
 ADC0 = ADC(Pin(ADC0_PIN))
@@ -217,10 +218,10 @@ def temp_C():
 # ---------------------------------------------------------------------
 
 # 3.3V digital I/O header (optional SONAR module shares H2 and H3)
-H1_PIN = 6   # H1
-H2_PIN = 7   # H2 (SONAR TRIG)
-H3_PIN = 8   # H3 (SONAR ECHO)
-H4_PIN = 0   # H4
+H1_PIN = const(6)   # H1
+H2_PIN = const(7)   # H2 (SONAR TRIG)
+H3_PIN = const(8)   # H3 (SONAR ECHO)
+H4_PIN = const(9)   # H4
 
 # Returns distance to closest target, up to a user-settable maximum
 # distance. Terminating measurement early requires an added error
@@ -268,9 +269,9 @@ def sonar_distance_cm(max=300):
 # ---------------------------------------------------------------------
 
 # 5V Digital output headers (output only)
-H5_PIN = 20  # Servo 1
-H6_PIN = 21  # Servo 2
-H7_PIN = 22  # Servo 3
+H5_PIN = const(20)  # Servo 1
+H6_PIN = const(21)  # Servo 2
+H7_PIN = const(22)  # Servo 3
 H8_PIN = LS1_PIN
 
 SERVO1 = PWM(Pin(H5_PIN), freq=50, duty_u16=4916)
