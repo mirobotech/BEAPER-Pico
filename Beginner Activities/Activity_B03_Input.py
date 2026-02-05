@@ -63,7 +63,7 @@ Program Analysis Activities
     (the 0, or 1, used to make the pin output low, or high) to read
     the value of an I/O pin, like this:
 
-  if beaper.SW2.value() == 0:
+    if beaper.SW2.value() == 0:
 
     The 'if' statement, known as an 'if condition', employs a similar
     structure to that used by the 'while' loop. That is, the program
@@ -98,10 +98,10 @@ Program Analysis Activities
     button is being pressed, and stop it when the button is released.
     Add this code to your program to try it out:
 
-  if beaper.SW3.value() == 0:
-    beaper.tone(440)
-  else:
-    beaper.noTone()
+    if beaper.SW3.value() == 0:
+        beaper.tone(440)
+    else:
+        beaper.noTone()
 
     What is the advantage of using an 'if-else' structure instead of
     using two separate if conditions – one to start the tone, and a
