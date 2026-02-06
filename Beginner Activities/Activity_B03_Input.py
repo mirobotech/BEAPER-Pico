@@ -1,7 +1,7 @@
 """
 ================================================================================
 Beginner Activity 3: Digital Input [Activity_B03_Input.py]
-February 5, 2026
+February 6, 2026
 
 Platform: mirobo.tech BEAPER Pico circuit (any configuration)
 Requires: BEAPER_Pico.py board module file
@@ -107,6 +107,38 @@ Program Analysis Activities
     using two separate if conditions – one to start the tone, and a
     second to stop the tone – to do the same thing?
 
+4.  Let's try using a combination of two pushbuttons to turn on one
+    LED. One way to accomplish this is by nesting one if-else
+    condition inside another, like this:
+
+    if beaper.SW3.value() == 0:
+        if beaper.SW4.value() == 0:
+            beaper.LED3.value(1)
+        else:
+            beaper.LED3.value(0)
+    else:
+        beaper.LED3.value(0)
+    
+    The nested if-else logic enables SW4 to turn the LED only if both
+    it and SW3 are pressed. Try the code in your program to verify
+    that it works as expected.
+
+5.  A better way to use two buttons to turn on one LED is by using
+    an 'and' logical operator in the if condition, like this:
+
+    if beaper.SW3.value() == 0 and beaper.SW4.value() == 0:
+        beaper.LED3.value(1)
+    else:
+        beaper.LED3.value(0)
+
+    Try this code in your program to verify that it works. In what
+    ways is this solution better than using nested if-else conditions?
+    
+6.  The logical 'or' operator can also be used in conditional
+    expressions. Describe the when the LED would be lit if the SW3
+    and SW4 pushbutton inputs in the activity were combined using a
+    logical or operator instead of the and operator in the condition.
+
 
 Programming Activities
 
@@ -120,8 +152,8 @@ Programming Activities
     pushbuttons are held? Is the machine (LED) on, or off? Describe
     what the program is doing.
 
-3.  Modify the program in activity 1, to only turn the LED on if
-    the 'Start' button is pressed while the 'Stop' button is released.
+3.  Modify the program in activity 1, to only turn the LED on if the
+    'Start' button is pressed while the 'Stop' button is released.
     
 4.  Modify the program in activity 1, above, to light the LED only
     after the 'Start' button is held for longer than one second.
