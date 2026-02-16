@@ -1,11 +1,11 @@
 """
 BEAPER_Pico.py
-February 4, 2026
+February 16, 2026
 
 Board support module for the mirobo.tech BEAPER Pico circuit.
 
-This module configures Raspberry Pi Pico's GPIO pins to use BEAPER
-Pico's built-in circuits and provides simple helper functions to
+This module configures Raspberry Pi Pico's GPIO pins for BEAPER
+Pico's on-board circuits and provides simple helper functions to
 enable beginners to focus on programming concepts first.
 
 Before getting started with it you should know:
@@ -14,7 +14,7 @@ Before getting started with it you should know:
 - you're encouraged to modify the code to make it work better for you!
 
 BEAPER Pico hardware notes:
-- Buttons use internal pull-up resistors (so pressed == LOW)
+- Buttons use internal pull-up resistors (so pressed == 0)
 - LEDs and motor driver share I/O pins (so much I/O, too few I/O pins!)
 - Analog jumpers on BEAPER Pico must be set to connect sensors to pins:
     - Enviro. position selects light sensor Q4, and pots RV1 and RV2
@@ -22,7 +22,7 @@ BEAPER Pico hardware notes:
 """
 
 import machine
-from machine import Pin, ADC, PWM 
+from machine import Pin, ADC, PWM, I2C
 import time
 
 # ---------------------------------------------------------------------
@@ -103,7 +103,7 @@ LED5 = Pin(LED5_PIN, Pin.OUT)
 # LEDs while the the motors are active will affect motor behavior!
 
 # NOTE: The forward and reverse directions of each motor are dependent
-# on both program code and the physical motor wiring on connector CON1.
+# on both program code and physical motor wiring connections on CON1.
 
 M1A = LED2  # Left motor terminal A
 M1B = LED3  # Left motor terminal B
@@ -123,6 +123,10 @@ def left_motor_forward():
 def left_motor_reverse():
     M1A.value(0)
     M1B.value(1)
+    
+def left_motor_stop():
+    M1A.value(0)
+    M1B.value(0)
 
 def right_motor_forward():
     M2A.value(0)
@@ -132,6 +136,10 @@ def right_motor_reverse():
     M2A.value(1)  # Opposite of left_motor_reverse()
     M2B.value(0)
 
+def right_motor_stop():
+    M2A.value(0)
+    M2B.value(0)
+    
 
 # ---------------------------------------------------------------------
 # BEAPER Pico Piezo Buzzer (BEAPER's beeper!)
@@ -139,11 +147,11 @@ def right_motor_reverse():
 
 LS1_PIN = const(14)  # Also wired to 5V output header H8
 
-# Generate tones using PWM. Designed to mimic Arduino tone() functions.
+# Generate tones using PWM (simiar to Arduino tone() functions)
 LS1 = PWM(Pin(LS1_PIN))
 
-# Start a tone at the supplied frequency (Hz), and optionally stop
-# the tone after the duration (ms). (Blocking delay)
+# Start a tone at specified frequency (Hz), and optionally stop the
+# tone after duration (ms). Adding duration causes a blocking delay.
 def tone(frequency, duration=None):
     LS1.freq(frequency)
     LS1.duty_u16(32768)
@@ -151,7 +159,7 @@ def tone(frequency, duration=None):
         time.sleep_ms(duration)
         noTone()
 
-# Stop the tone. Optionally pause for the duration (ms). (Blocking delay) 
+# Stop the tone. Optionally pause for the duration (ms). 
 def noTone(duration=None):
     LS1.duty_u16(0)
     if duration is not None:
@@ -175,27 +183,27 @@ ADC2 = ADC(Pin(ADC2_PIN))
 
 def light_level():
     """ Read Q4 ambient light sensor value. Set JP1 to Enviro. """
-    return 65535 - ADC0.read_u16()
+    return 65535-ADC0.read_u16()  # Brighter -> higher values
 
 def Q1_level():
     """ Read floor sensor Q1. Set JP1 to Robot. """
-    return ADC0.read_u16()
+    return 65535-ADC0.read_u16()  # Higher reflectivity -> higher values
 
 def Q2_level():
     """ Read line sensor Q2. Set JP2 to Robot. """
-    return ADC1.read_u16()
+    return 65535-ADC1.read_u16()  # Higher reflectivity -> higher values
 
 def Q3_level():
     """ Read floor/line sensor Q3. Set JP3 to Robot. """
-    return ADC2.read_u16()
+    return 65535-ADC2.read_u16()  # Higher reflectivity -> higher values
 
 def RV1_level():
     """ Read potentiometer RV1. Set JP2 to Enviro. """
-    return ADC1.read_u16()
+    return ADC1.read_u16()  # Clockwise -> higher values
 
 def RV2_level():
     """ Read potentiometer RV2. Set JP3 to Enviro. """
-    return ADC2.read_u16()
+    return ADC2.read_u16()  # Clockwise -> higher values
 
 # Raspberry Pi Pico VSYS input
 VSYS = ADC(Pin(29))  # Regulator input voltage VSYS / 3
@@ -211,6 +219,16 @@ def temp_C():
     # Read die temp in degrees C.
     die_temp_volts = DIE_TEMP.read_u16() * 3.3 / 65535
     return 25 - (die_temp_volts - 0.716) / 0.001721
+
+
+# ---------------------------------------------------------------------
+# QWIIC/I2C Connector J4 (supports 3.3V I2C devices)
+# ---------------------------------------------------------------------
+
+I2C_ID = 0
+SDA = Pin(4)
+SCL = Pin(5)
+QWIIC = I2C(id=I2C_ID, sda=SDA, scl=SCL)
 
 
 # ---------------------------------------------------------------------
