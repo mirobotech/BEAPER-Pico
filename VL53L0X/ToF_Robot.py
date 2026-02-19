@@ -1,7 +1,7 @@
 """
 ================================================================================
 ToF_Robot.py]
-February 16, 2026
+February 18, 2026
 
 Platform: mirobo.tech BEAPER Pico circuit
 Requires: BEAPER_Pico.py board module file
@@ -22,8 +22,9 @@ import BEAPER_Pico as beaper
 
 # --- Program Constants ----------------
 MAX_TARGET_RANGE = const(500)   # Follow targets within max range (mm)
-DARK_THRESHOLD = const(40000)   # Floor sensor dark threshold
-REV_TIME = const(200)           # Reversing time (ms)
+DARK_THRESHOLD = const(40000)   # Floor sensor dark threshold (darker -> lower)
+REV_TIME = const(200)           # Reverse from edge for time (ms)
+TOF_OFFSET = const(-30)         # ToF sensor module range offset (mm)
 
 # --- Program Variables ----------------
 sonar_mode = False
@@ -37,7 +38,7 @@ tof_time_us = 0
 # I2C is configured in BEAPER_Pico module
 # QWIIC = I2C(id=beaper.I2C_ID, sda=beaper.SDA, scl=beaper.SCL)
 # VL53L0X device should answer I2C scan at address 41
-# print("I2C scan:", i2c.scan())
+# print("I2C scan:", beaper.QWIIC.scan())
 tof = VL53L0X(beaper.QWIIC)
 # Start first range request (non-blocking)
 tof.start_range_request()
@@ -107,7 +108,7 @@ while True:
             
     while tof_mode:
         if tof.reading_available():
-            tof_range_mm = tof.get_range_value()-30
+            tof_range_mm = tof.get_range_value()-TOF_OFFSET
             tof.start_range_request()
         
         if 0 < tof_range_mm < MAX_TARGET_RANGE:
