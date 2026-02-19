@@ -55,7 +55,7 @@ Program Analysis Activities
     editor help you indent your program code consistently. (If program
     lines are meant to be parts of the same structure but use different
     indent characters or different numbers of spaces to indent the
-    code, the MicroPython intepreter will generate an error. You'll
+    code, the MicroPython interpreter will generate an error. You'll
     often run into this problem when copying and pasting code from
     different examples or sources.)
     
@@ -113,7 +113,7 @@ Programming Activities
 
 4.  The BEAPER_Pico.py board module file includes functions to control
     the Raspberry Pi Pico module's on-board LED (as well as many other
-    pin definitions and pre-made functions for the BEAPER Pico circuit –
+    pin definitions and pre-made functions for the BEAPER Pico circuit -
     feel free to open the file and explore all of the code that it
     contains!).
     
@@ -126,5 +126,5 @@ Programming Activities
     the Raspberry Pi Pico's LED acts as a status indicator to show
     you that your program is running. Run the program to verify that
     it works.
-    
+
 """

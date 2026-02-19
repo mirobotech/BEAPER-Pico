@@ -249,38 +249,38 @@ SONAR_TRIG = Pin(H2_PIN, Pin.OUT, value=0)
 SONAR_ECHO = Pin(H3_PIN, Pin.IN)
 
 def sonar_distance_cm(max=300):
-  # Returns either:
-  #  - distance (cm) to the closest target, up to max distance (cm)
-  #  - 0 if no target is detected within max distance
-  #  - error code (-1, -2) from the time_pulse_us() function
-  #  - error code (-3) if a previous ECHO is still in progress
+    # Returns either:
+    #  - distance (cm) to the closest target, up to max distance (cm)
+    #  - 0 if no target is detected within max distance
+    #  - error code (-1, -2) from the time_pulse_us() function
+    #  - error code (-3) if a previous ECHO is still in progress
 
-  if SONAR_ECHO.value() == 1:
-    # Check if previous ECHO is in progress, return error if so
-    return -3   # (wait 10ms after ECHO ends before re-triggering)
+    if SONAR_ECHO.value() == 1:
+        # Check if previous ECHO is in progress, return error if so
+        return -3   # (wait 10ms after ECHO ends before re-triggering)
   
-  # Create a TRIG pulse
-  SONAR_TRIG.value(1)
-  time.sleep_us(10)
-  SONAR_TRIG.value(0)
-  
-  # Wait 2500us for ECHO pulse to start. Note: HC-SR04P (3.3V-capable
-  # modules also labelled as RCWL-9610A 2022) delay for approximately
-  # 2300us after the TRIG pulse ends and the ECHO pulse starts.
-  
-  duration = machine.time_pulse_us(SONAR_ECHO, 0, 2500)
+    # Create a TRIG pulse
+    SONAR_TRIG.value(1)
+    time.sleep_us(10)
+    SONAR_TRIG.value(0)
 
-  if duration < 0:
-    # ECHO didn't start - return time_pulse_us() error (-2, -1)
-    return duration
-  
-  # Time ECHO pulse. Set time-out value to max range.
-  duration = machine.time_pulse_us(SONAR_ECHO, 1, (max + 1) * 58)
-  if duration < 0:
-    return 0    # Distance > max range
-  
-  # Calculate target distance in cm
-  return duration / 58
+    # Wait 2500us for ECHO pulse to start. Note: HC-SR04P (3.3V-capable
+    # modules also labelled as RCWL-9610A 2022) delay for approximately
+    # 2300us after the TRIG pulse ends and the ECHO pulse starts.
+
+    duration = machine.time_pulse_us(SONAR_ECHO, 0, 2500)
+
+    if duration < 0:
+        # ECHO didn't start - return time_pulse_us() error (-2, -1)
+        return duration
+
+    # Time ECHO pulse. Set time-out value to max range.
+    duration = machine.time_pulse_us(SONAR_ECHO, 1, (max + 1) * 58)
+    if duration < 0:
+        return 0    # Distance > max range
+
+    # Calculate target distance in cm
+    return duration / 58
 
 
 # ---------------------------------------------------------------------
