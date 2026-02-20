@@ -1,6 +1,6 @@
 """
 BEAPER_Pico.py
-February 18, 2026
+February 20, 2026
 
 Board support module for the mirobo.tech BEAPER Pico circuit.
 
@@ -60,21 +60,7 @@ SW3 = Pin(SW3_PIN, Pin.IN, Pin.PULL_UP)
 SW4 = Pin(SW4_PIN, Pin.IN, Pin.PULL_UP)
 SW5 = Pin(SW5_PIN, Pin.IN, Pin.PULL_UP)
 
-def SW2_pressed():
-    # Return True if pushbutton 2 is pressed.
-    return SW2.value() == 0
-
-def SW3_pressed():
-    # Return True if pushbutton 3 is pressed.
-    return SW3.value() == 0
-
-def SW4_pressed():
-    # Return True if pushbutton 4 is pressed.
-    return SW4.value() == 0
-
-def SW5_pressed():
-    # Return True if pushbutton 5 is pressed.
-    return SW5.value() == 0
+SWITCHES = (SW2, SW3, SW4, SW5)  # Tuple of all pushbutton switch pins
 
 
 # ---------------------------------------------------------------------
@@ -93,6 +79,8 @@ LED2 = Pin(LED2_PIN, Pin.OUT)
 LED3 = Pin(LED3_PIN, Pin.OUT)
 LED4 = Pin(LED4_PIN, Pin.OUT)
 LED5 = Pin(LED5_PIN, Pin.OUT)
+
+LEDS = (LED2, LED3, LED4, LED5)  # Tuple of all LED pins
 
 
 # ---------------------------------------------------------------------
@@ -145,7 +133,7 @@ def right_motor_stop():
 # BEAPER Pico Piezo Buzzer (BEAPER's beeper!)
 # ---------------------------------------------------------------------
 
-# Generate tones using PWM (simiar to Arduino tone() functions)
+# Generate tones using PWM (similar to Arduino tone() functions)
 
 LS1_PIN = const(14)  # Also wired to 5V output header H8
 
