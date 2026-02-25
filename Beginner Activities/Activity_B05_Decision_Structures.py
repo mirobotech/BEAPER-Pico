@@ -1,7 +1,7 @@
 """
 ================================================================================
 Beginner Activity 5: Decision Structures [Activity_B05_Decision_Structures.py]
-February 19, 2026
+February 24, 2026
 
 Platform: mirobo.tech BEAPER Pico circuit (any configuration)
 Requires: BEAPER_Pico.py board module file
