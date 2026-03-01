@@ -205,9 +205,12 @@ def Vsys_Volts():
 DIE_TEMP = ADC(ADC.CORE_TEMP)
 
 def temp_C():
-    # Read die temp in degrees C.
+    # Read die temp in degrees C. From the Raspberry Pi Pico datasheet:
+    # The temperature sensor measures the Vbe voltage of a biased bipolar
+    # diode, connected to the fifth ADC channel. Typically, Vbe = 0.706V
+    # at 27 degrees C, with a slope of -1.721mV (0.001721) per degree.
     die_temp_volts = DIE_TEMP.read_u16() * 3.3 / 65535
-    return 25 - (die_temp_volts - 0.716) / 0.001721
+    return 27 - (die_temp_volts - 0.706) / 0.001721
 
 
 # ---------------------------------------------------------------------
