@@ -1,6 +1,6 @@
 """
 BEAPER_Pico.py
-February 20, 2026
+March 1, 2026
 
 Board support module for the mirobo.tech BEAPER Pico circuit.
 
@@ -197,20 +197,20 @@ def RV2_level():
 # Raspberry Pi Pico VSYS input
 VSYS = ADC(Pin(29))  # Regulator input voltage VSYS / 3
 
-def Vsys_Volts():
+def VSYS_volts():
     # Read system voltage in volts.
     return VSYS.read_u16() * 9.9 / 65535
 
 # RP2xxxx die temperator sensor input
-DIE_TEMP = ADC(ADC.CORE_TEMP)
+MCU_TEMP = ADC(ADC.CORE_TEMP)
 
-def temp_C():
-    # Read die temp in degrees C. From the Raspberry Pi Pico datasheet:
+def mcu_temperature():
+    # Read MCU die temp in degrees C. From the Raspberry Pi Pico datasheet:
     # The temperature sensor measures the Vbe voltage of a biased bipolar
     # diode, connected to the fifth ADC channel. Typically, Vbe = 0.706V
     # at 27 degrees C, with a slope of -1.721mV (0.001721) per degree.
-    die_temp_volts = DIE_TEMP.read_u16() * 3.3 / 65535
-    return 27 - (die_temp_volts - 0.706) / 0.001721
+    mcu_temp_volts = MCU_TEMP.read_u16() * 3.3 / 65535
+    return 27 - (mcu_temp_volts - 0.706) / 0.001721
 
 
 # ---------------------------------------------------------------------
@@ -239,7 +239,7 @@ H4_PIN = const(9)   # H4
 SONAR_TRIG = Pin(H2_PIN, Pin.OUT, value=0)
 SONAR_ECHO = Pin(H3_PIN, Pin.IN)
 
-def sonar_distance_cm(max=300):
+def sonar_range(max=300):
     # Returns either:
     #  - distance (cm) to the closest target, up to max distance (cm)
     #  - 0 if no target is detected within max distance
@@ -284,33 +284,29 @@ H6_PIN = const(21)  # Servo 2
 H7_PIN = const(22)  # Servo 3
 H8_PIN = LS1_PIN    # Same as piezo speaker pin
 
-SERVO1 = PWM(Pin(H5_PIN), freq=50, duty_u16=4916)
-SERVO2 = PWM(Pin(H6_PIN), freq=50, duty_u16=4916)
-SERVO3 = PWM(Pin(H7_PIN), freq=50, duty_u16=4916)
+# Servo pulse width constants (microseconds). Adjust for your servo.
+# Standard 90-degree servo: 1000us to 2000us
+SERVO_MIN_US = const(1000)   # Pulse width at 0 degrees
+SERVO_MAX_US = const(2000)   # Pulse width at maximum angle
+SERVO_RANGE  = const(90)     # Maximum servo angle (degrees)
 
-def SERVO1_angle(angle):
-    """
-    Set servo 1 to angle (0–90 degrees).
-    
-    90 degree servo pulses range from 1-2 ms. Servo pulse is created
-    using PWM, so pulse length is derived from duty cycle of the frame:
-    
-    1ms pulse / 20ms frame * 65536 (16-bit PWM range) = 3276.8 (use 3277)
-    2ms pulse / 20ms frame * 65536 = 6554
-    
-    Duty cycles from 3277 to 6554 correspond to 0-90 degrees of motion.
-    """
-    angle = max(0, min(90, 90-angle))
-    duty = int(3277 + (angle / 90) * 3277)
-    SERVO1.duty_u16(duty)
+# Servos are initialized to centre position (duty_u16=4915 ≈ 1.5ms).
+# This value is calculated from: 
+#   - pulse period: 1 / 50Hz pulse frequency = 20ms period
+#   - 1.5ms pulse: duty_u16 = (1.5 / 20.0) * 65535 = 4915
+# Modify the duty_u16 value if the centre position is not safe for
+# your application before connecting servos to the circuit.
+SERVO1 = PWM(Pin(H5_PIN), freq=50, duty_u16=4915)
+SERVO2 = PWM(Pin(H6_PIN), freq=50, duty_u16=4915)
+SERVO3 = PWM(Pin(H7_PIN), freq=50, duty_u16=4915)
 
-def SERVO2_angle(angle):
-    angle = max(0, min(90, 90-angle))
-    duty = int(3277 + (angle / 90) * 3277)
-    SERVO2.duty_u16(duty)
+SERVOS = (SERVO1, SERVO2, SERVO3)  # Tuple of all servo PWM outputs
 
-def SERVO3_angle(angle):
-    angle = max(0, min(90, 90-angle))
-    duty = int(3277 + (angle / 90) * 3277)
-    SERVO3.duty_u16(duty)
-
+def set_servo(servo, angle):
+    # Set a servo to angle (0 to SERVO_RANGE degrees).
+    # Pass the servo object as the first argument: set_servo(SERVO1, 45)
+    angle = max(0, min(SERVO_RANGE, angle))
+    pulse_us = SERVO_MIN_US + int(angle / SERVO_RANGE * (SERVO_MAX_US - SERVO_MIN_US))
+    servo.duty_ns(pulse_us * 1000)
+    return angle
+  
