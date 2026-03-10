@@ -20,6 +20,7 @@ This repository contains:
 * B04_Constants_Variables_Exploration.py - Constants and Variables extension project
 * Activity_B05_Decision_Structures.py - Decision structures and comparison operators
 * Activity_B06_Conditional_Loops.py - Conditional while loops
+* Activity_B07_Counted_Loops.py - For loops
 
 ## Introductory Programming Activities - Older beginner programming activities
 
