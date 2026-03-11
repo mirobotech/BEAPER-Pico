@@ -1,6 +1,6 @@
 """
 LCD.py
-Updated: May 27, 2025
+Updated: March 10, 2026
 
 Adapted from Russ Hughes' st7789mpy.py MicroPython ST7789 driver library.
 (https://github.com/russhughes/st7789py_mpy)
@@ -256,7 +256,7 @@ _WIDTH = const(0)
 _HEIGHT = const(1)
 _XSTART = const(2)
 _YSTART = const(3)
-_NEEDS_SWAP = const(4)
+_NEEDS_SWAP = const(5)  # (madctl, width, height, xstart, ystart, needs_swap)
 
 # Supported displays (physical width, physical height, rotation table)
 _SUPPORTED_DISPLAYS = (
@@ -304,6 +304,11 @@ class Canvas(framebuf.FrameBuffer):
     def __init__(self, buffer, width, height, format):
         self.display_buffer = buffer
         super().__init__(self.display_buffer, width, height, format)
+        # Character buffer and canvas for write() - allocated once and reused.
+        # Reallocated only when the font changes (fonts differ in MAX_WIDTH/HEIGHT).
+        self._char_font = None      # Font module currently sized for
+        self._char_buffer = None    # bytearray backing _char_canvas
+        self._char_canvas = None    # FrameBuffer wrapping _char_buffer
         
     def color565(self, red, green, blue):
         """
@@ -338,7 +343,7 @@ class Canvas(framebuf.FrameBuffer):
         y1 = y + r
         y2 = y + h - 1 - r
         
-        if fill == False:
+        if not fill:
             vseg = h-r2     # Draw vertical line segments if longer than 0
             if vseg > 0:
                 self.vline(x, y1, vseg, color)
@@ -382,20 +387,35 @@ class Canvas(framebuf.FrameBuffer):
             font (font): The module containing the converted true-type font
             fg (int): foreground color (RGB565, optional), defaults to WHITE
             bg (int): background color (RGB565, optional), defaults to transparent
-                      (None) which is internally represented as 0x0020
         """
-        char_size = font.MAX_WIDTH * font.HEIGHT * 2
-        char_buffer = bytearray(char_size)
-        char_canvas = framebuf.FrameBuffer(
-            char_buffer, font.MAX_WIDTH, font.HEIGHT, framebuf.RGB565
-        )
+        # Reallocate the character buffer and canvas only when the font changes.
+        # The same bytearray is used for both direct byte writes and char_canvas
+        # blitting, so both references must stay in sync.
+        if font is not self._char_font:
+            char_size = font.MAX_WIDTH * font.HEIGHT * 2
+            self._char_buffer = bytearray(char_size)
+            self._char_canvas = framebuf.FrameBuffer(
+                self._char_buffer, font.MAX_WIDTH, font.HEIGHT, framebuf.RGB565
+            )
+            self._char_font = font
+        char_buffer = self._char_buffer
+        char_canvas = self._char_canvas
+        char_size = len(char_buffer)  # Avoids recomputing MAX_WIDTH * HEIGHT * 2
 
         fg_hi = fg >> 8
         fg_lo = fg & 0xFF
 
-        if bg is not None:
+        if bg is None:
+            # Choose a sentinel that is guaranteed not to equal fg, so blit()
+            # never treats a foreground pixel as transparent. Flipping all bits
+            # ensures the sentinel always differs from fg; the one edge case
+            # (fg == 0xFFFF) falls back to 0x0000.
+            transparent = (fg ^ 0xFFFF) if fg != 0xFFFF else 0x0000
+            fill_colour = transparent
+        else:
             bg_hi = bg >> 8
             bg_lo = bg & 0xFF
+            fill_colour = bg
 
         for character in string:
             try:
@@ -404,16 +424,15 @@ class Canvas(framebuf.FrameBuffer):
                 bs_bit = font.OFFSETS[offset]
                 if font.OFFSET_WIDTH > 1:
                     bs_bit = (bs_bit << 8) + font.OFFSETS[offset + 1]
-
                 if font.OFFSET_WIDTH > 2:
                     bs_bit = (bs_bit << 8) + font.OFFSETS[offset + 2]
 
                 char_width = font.WIDTHS[char_index]
 
-                if bg is not None:
-                    char_canvas.fill(bg)
-                else:
-                    char_canvas.fill(0x0020)  # fill buffer with transparency value
+                # Pre-fill the buffer with the background or transparency sentinel.
+                # The pixel loop then only needs to write foreground pixels, since
+                # off-pixels are already set correctly by the fill.
+                char_canvas.fill(fill_colour)
 
                 char_col = 0
                 for i in range(0, char_size, 2):
@@ -421,21 +440,16 @@ class Canvas(framebuf.FrameBuffer):
                         if font.BITMAPS[bs_bit // 8] & 1 << (7 - (bs_bit % 8)) > 0:
                             char_buffer[i] = fg_lo
                             char_buffer[i + 1] = fg_hi
-                        else:
-                            if bg is not None:
-                                char_buffer[i] = bg_lo
-                                char_buffer[i + 1] = bg_hi
-
                         bs_bit += 1
-  
+
                     char_col += 1
                     if char_col == font.MAX_WIDTH:
                         char_col = 0
 
-                if bg is not None:
-                    self.blit(char_canvas, x, y)
+                if bg is None:
+                    self.blit(char_canvas, x, y, transparent)
                 else:
-                    self.blit(char_canvas, x, y, 0x0020)
+                    self.blit(char_canvas, x, y)
 
                 x += char_width
 
@@ -548,6 +562,7 @@ class Canvas(framebuf.FrameBuffer):
                 rotated[i][1],
                 color,
             )
+        self.line(rotated[-1][0], rotated[-1][1], rotated[0][0], rotated[0][1], color)
 
 class LCD(Canvas):
     """
@@ -686,6 +701,7 @@ class LCD(Canvas):
         if backlight is not None:
             backlight.value(1)
 
+    @staticmethod
     def _find_rotations(width, height):
         for display in _SUPPORTED_DISPLAYS:
             if display[0] == width and display[1] == height:
@@ -819,8 +835,8 @@ class LCD(Canvas):
         if data is not None:
             self.dc.value(1)
             self.spi.write(data)
-            if self.cs:
-                self.cs.value(1)
+        if self.cs:
+            self.cs.value(1)
 
     def _set_window(self, x0, y0, x1, y1):
         """
@@ -842,4 +858,3 @@ class LCD(Canvas):
                 struct.pack(_ENCODE_POS, y0 + self.ystart, y1 + self.ystart),
             )
             self._write(_ST7789_RAMWR)
-
