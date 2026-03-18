@@ -1,7 +1,7 @@
 """
 ================================================================================
 ToF_SONAR_Comparison.py
-February 16, 2026
+March 8, 2026
 
 Platform: mirobo.tech BEAPER Pico circuit
 Requires: BEAPER_Pico.py board support module file
@@ -22,10 +22,13 @@ import time
 
 # LCD driver module
 import LCDconfig_Pico as lcd_config
+
 # Font module
 import RedditSans_24 as rs24
+
 # VL53L0X module
 from vl53l0x_nb import VL53L0X
+
 # BEAPER Pico support module
 import BEAPER_Pico as beaper
 
@@ -54,7 +57,7 @@ lcd.write("HC-SR04P", 120, 0, rs24, lcd.WHITE, None)
 while True:
     # Measure time to get SONAR range
     sonar_start = time.ticks_us()
-    sonar_range_mm = int(beaper.sonar_distance_cm()*10)
+    sonar_range_mm = int(beaper.sonar_range() * 10)
     sonar_time_us = time.ticks_diff(time.ticks_us(), sonar_start)
     
     # Measure time to get ToF range
@@ -62,7 +65,7 @@ while True:
     tof.start_range_request()
     while not tof.reading_available():
         pass
-    tof_range_mm = tof.get_range_value()-30
+    tof_range_mm = tof.get_range_value() - 30 # offset for sensor
     tof_time_us = time.ticks_diff(time.ticks_us(), tof_start)
     
     # Write ranges and ranging times into LCD framebuffer
