@@ -1,6 +1,6 @@
 """
 BEAPER_Pico.py
-March 14, 2026
+March 18, 2026
 
 Board support module for the mirobo.tech BEAPER Pico circuit.
 
@@ -289,7 +289,7 @@ def sonar_range(_max_range=100):
         return 0
 
     # Convert round trip ECHO time to distance
-    return int(duration / 58)
+    return duration / 58
 
 
 # ---------------------------------------------------------------------
