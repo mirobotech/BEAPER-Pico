@@ -1,6 +1,6 @@
 """
 BEAPER_Pico.py
-March 18, 2026
+March 22, 2026
 
 Board support module for the mirobo.tech BEAPER Pico circuit.
 
@@ -275,16 +275,16 @@ def sonar_range(_max_range=100):
     # Wait up to 2500us for ECHO pin to go high after TRIG.
     # (Necessary for 3.3V HC-SR04P/RCWL-9610A SONAR modules.)
     duration = machine.time_pulse_us(SONAR_ECHO, 0, 2500)
-    # time_pulse_us returns -2 if ECHO pin never goes low or -1 if
-    # ECHO is low for > 2500us. Either way, ECHO did not start.
+    # time_pulse_us() returns a negative value if ECHO did not start.
     if duration < 0:
         return -1
 
-  # Measure ECHO pulse duration. Time-out value is set to round-trip
-  # time for max_range plus 1cm, in microseconds. (~29us/cm one way)
+    # Measure ECHO pulse duration. Time-out value is set to round-trip
+    # time for max_range plus 1cm, in microseconds. (~29us/cm one way)
     duration = machine.time_pulse_us(SONAR_ECHO, 1, (_max_range + 1) * 58)
     
-    # time_pulse_us returns -1 if ECHO times out (no target within _max_range)
+    # time_pulse_us() returns a negative value if ECHO times out (no
+    # target within _max_range)
     if duration < 0:
         return 0
 
