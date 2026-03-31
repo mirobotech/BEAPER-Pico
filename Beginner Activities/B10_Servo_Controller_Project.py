@@ -1,7 +1,7 @@
 """
 ================================================================================
-Project: Servo Controller [B10_Pico_Servo_Controller_Project.py]
-March 2, 2026
+Project: Servo Controller [B10_Servo_Controller_Project.py]
+March 31, 2026
 
 Platform: mirobo.tech BEAPER Pico circuit (any configuration)
 Requires: BEAPER_Pico.py board module file.
