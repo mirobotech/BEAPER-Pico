@@ -1,6 +1,6 @@
 # MicroPython LCD Driver for BEAPER Nano and BEAPER Pico
 
-This module implements an ST7789 LCD driver for the 1.54", 240x240 pixel TFT LCD display panel that can be added to mirobo.tech BEAPER Nano and BEAPER Pico circuit boards. The LCD display panel is controlled over the SPI bus.
+This module implements an ST7789 LCD driver for the 1.54", 240x240 pixel TFT LCD display module that is an optional add-on to mirobo.tech BEAPER Nano and BEAPER Pico circuit boards. The LCD display is controlled using the SPI bus.
 
 The primary goals of this driver are: 1) to implement a simplified set of LCD control functions and graphics primitives in a style common to MicroPython's built-in frame buffer, and 2) to leverage MicroPython's frame buffer for consistent and fast operation.
 
@@ -23,7 +23,7 @@ This LCD.py driver is extended from Russ Hughes' extensive and excellent [st7789
     
 * blit_buffer(b, x, y, w, h) - copy memory buffer b to LCD display memory at location x, y, using buffer width w, and height h
     
-* update() - update the LCD display memory with the contents of the frame buffer
+* update([x, y, w, h]) - update the LCD display memory with the contents of the MicroPython frame buffer. Without arguments, updates the entire display. With x, y, w, h arguments, updates only the specified rectangular region (dirty rectangle update), which results in faster updates when only a small area of the frame buffer has changed.
 
 
 ## LCD graphics functions
@@ -43,6 +43,8 @@ This LCD.py driver is extended from Russ Hughes' extensive and excellent [st7789
 * rect(x, y, w, h, c, [, f]) - draw a rectange at x, y, width w, height h, using color c, and optionally fill the rectangle with color c if f=True
     
 * round_rect(x, y, w, h, r, c [, f]) - draw a rounded-rectange at x, y, width w, height h, having corner radius r, using color c, and optionally fill the rectangle with color c if f=True
+
+* triangle(x0, y0, x1, y1, x2, y2, c [, f]) - draw a triangle with vertices at x0,y0, x1,y1, and x2,y2, using color c, and optionally fill the triangle if f=True
     
 * ellipse(x, y, xr, yr, c, [, f, m]) - draw an ellipse centred at x, y, with x radius xr, y radius yr, using color c, and optionally fill the ellipse with color c if f=True. Optional m parameter enables the drawing of only one quadrant of the ellipse: 1=top right, 2=top left, 3=bottom left, 4=bottom right
     
@@ -50,8 +52,9 @@ This LCD.py driver is extended from Russ Hughes' extensive and excellent [st7789
     
 * scroll(xstep, ystep) - scroll the contents of the frame buffer by xstep and ystep
     
-* bitmap(bitmap, x, y [, index]) - draw a converted bitmap file at x, y, from an optional index (currently only draws bitmaps with size equal to the display size). The bitmap image must be converted to a python module using Russ Hughes' [image_converter.py] (https://github.com/russhughes/st7789py_mpy/tree/master/utils) program.
+* bitmap(bitmap, x, y [, index, transparent]) - draw a palette-compressed bitmap file at x, y. Supports any size, clipped to the display bounds. Optional index selects from a multi-bitmpa module. Optional transparent palette index causes those pixels to be skipped, allowing the framebuffer background to shot through. Bitmap images must be converted to a python module using Russ Hughes' [image_converter.py] (https://github.com/russhughes/st7789py_mpy/tree/master/utils) program.
 
+* bitmap_to_buffer(bitmap [, index]) - convert a palette-compressed bitmap module to a raw RGB565 bytearray for fast repeated drawing using blit_buffer().
 
 ## LCD Text functions
 
