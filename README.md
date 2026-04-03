@@ -23,6 +23,10 @@ This repository contains:
 * Activity_B07_Counted_Loops.py - For loops
 * Activity_B08_Functions.py - Creating and using functions
 * Activity_B09_Analog_Input.py - Reading and processing analog input values
+* Activity_B10_Analog_Output.py - Controlling real-world outputs
+* B10_Motor_Controller_Project.py - PWM motor output
+* B10_Servo_Controller_Project.py - Servo output
+* B10_Sound_Controller_Project.py - Sound output
 
 ## Introductory Programming Activities - Older beginner programming activities
 
