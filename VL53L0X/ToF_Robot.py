@@ -1,13 +1,15 @@
 """
 ================================================================================
 ToF_Robot.py]
-February 18, 2026
+April 7, 2026
 
 Platform: mirobo.tech BEAPER Pico circuit
 Requires: BEAPER_Pico.py board module file
           vl53l0x_nb.py non-blocking VL53L0X driver module
 
 Table-top robot using ToF target finding and floor sensor edge detection.
+Press SW2 to start in ToF mode, or SW3 to start in SONAR mode. Robot drives
+towards objects while using floor sensors to stay on reflective floors.
 ================================================================================
 """
 
