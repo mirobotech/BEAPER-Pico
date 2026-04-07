@@ -44,10 +44,10 @@ tof = VL53L0X(beaper.QWIIC)
 tof.start_range_request()
 
 while True:
-    SW2_pressed = (beaper.SW2.value() == 0)
-    SW3_pressed = (beaper.SW3.value() == 0)
-    SW4_pressed = (beaper.SW4.value() == 0)
-    SW5_pressed = (beaper.SW5.value() == 0)
+    SW2_pressed = beaper.SW2.value() == 0
+    SW3_pressed = beaper.SW3.value() == 0
+    SW4_pressed = beaper.SW4.value() == 0
+    SW5_pressed = beaper.SW5.value() == 0
     
     # Start robot in ToF mode
     if SW3_pressed:
@@ -69,9 +69,9 @@ while True:
         time.sleep_ms(10)
        
     while sonar_mode:
-        sonar_range_mm = beaper.sonar_distance_cm()
-        if sonar_range_mm > 0:
-            sonar_range_mm = int(sonar_range_mm*10)
+        sonar_range_cm = beaper.sonar_range()
+        if sonar_range_cm > 0:
+            sonar_range_mm = int(sonar_range_cm*10)
         else:
             time.sleep_ms(10)
         
