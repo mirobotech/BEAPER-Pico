@@ -1,7 +1,7 @@
 """
 ================================================================================
 ToF_SONAR_Comparison.py
-March 8, 2026
+April 7, 2026
 
 Platform: mirobo.tech BEAPER Pico circuit
 Requires: BEAPER_Pico.py board support module file
@@ -15,7 +15,7 @@ and HC-SR04P SONAR distance sensor modules.
 """
 
 # --- MicroPython Modules --------------
-from machine import Pin, I2C
+from machine import I2C
 import framebuf
 import array
 import time
@@ -24,7 +24,7 @@ import time
 import LCDconfig_Pico as lcd_config
 
 # Font module
-import RedditSans_24 as rs24
+import RedditSans_24 as font24
 
 # VL53L0X module
 from vl53l0x_nb import VL53L0X
@@ -40,44 +40,44 @@ tof_time_us = 0
 
 beaper.pico_led_on()
 
-# I2C is configured in BEAPER_Pico module
+# Configure ToF. I2C bus is configured in BEAPER_Pico module:
 # QWIIC = I2C(id=beaper.I2C_ID, sda=beaper.SDA, scl=beaper.SCL)
 # VL53L0X device should answer I2C scan at address 41
 # print("I2C scan:", beaper.QWIIC.scan())
 tof = VL53L0X(beaper.QWIIC)
 
-# Configure LCD (rotation=3 is 'up' for BEAPER Pico LCD)
-lcd = lcd_config.config(rotation=3)
+# Configure LCD
+lcd = lcd_config.config()
 
 # Write LCD headings into LCD framebuffer
 lcd.fill(0x0)
-lcd.write("VL53L0X", 0, 0, rs24, lcd.WHITE, None)
-lcd.write("HC-SR04P", 120, 0, rs24, lcd.WHITE, None)
+lcd.write("VL53L0X", 0, 0, font24, lcd.WHITE, None)
+lcd.write("HC-SR04P", 120, 0, font24, lcd.WHITE, None)
 
 while True:
-    # Measure time to get SONAR range
+    # Measure time to acquire SONAR range
     sonar_start = time.ticks_us()
-    sonar_range_mm = int(beaper.sonar_range() * 10)
+    sonar_range_mm = int(beaper.sonar_range() * 10) # convert to mm
     sonar_time_us = time.ticks_diff(time.ticks_us(), sonar_start)
     
-    # Measure time to get ToF range
+    # Measure time to acquire ToF range
     tof_start = time.ticks_us()
     tof.start_range_request()
     while not tof.reading_available():
         pass
-    tof_range_mm = tof.get_range_value() - 30 # offset for sensor
+    tof_range_mm = tof.get_range_value() - 30 # offset for my windowed sensor
     tof_time_us = time.ticks_diff(time.ticks_us(), tof_start)
     
     # Write ranges and ranging times into LCD framebuffer
     text = f"D: {tof_range_mm}mm  "
-    lcd.write(text, 0, 24, rs24, lcd.WHITE, lcd.BLACK)
+    lcd.write(text, 0, 24, font24, lcd.WHITE, lcd.BLACK)
     text = f"T: {tof_time_us}us  "
-    lcd.write(text, 0, 48, rs24, lcd.WHITE, lcd.BLACK)
+    lcd.write(text, 0, 48, font24, lcd.WHITE, lcd.BLACK)
     
     text = f"D: {sonar_range_mm}mm  "
-    lcd.write(text, 120, 24, rs24, lcd.WHITE, lcd.BLACK)
+    lcd.write(text, 120, 24, font24, lcd.WHITE, lcd.BLACK)
     text = f"T: {sonar_time_us}us  "
-    lcd.write(text, 120, 48, rs24, lcd.WHITE, lcd.BLACK)
+    lcd.write(text, 120, 48, font24, lcd.WHITE, lcd.BLACK)
     
     # Update LCD from framebuffer
     lcd.update()
