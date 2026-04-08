@@ -2,15 +2,17 @@
 
 ## Beginner Electronics and Programming Educational Robot (BEAPER) for Raspberry Pi Pico
 
-[BEAPER Pico](https://mirobo.tech/beaper) is a beginner circuit kit for learning and teaching with Raspberry Pi Pico microcontrollers.
+[BEAPER Pico](https://mirobo.tech/beaper) is a beginner circuit kit for learning and teaching microcontroller programming and robotics using Raspberry Pi Pico microcontrollers.
 
 This repository contains:
-* Beginner Activities - NEW learning activities
-* Introductory Programming Activities - Old
-* a MicroPython ST7789 LCD driver module and example programs
-* a VL53L0X ToF (Time of Flight) driver module and example programs
+* Arduino - a header file for programming BEAPER Pico using the Arduino IDE
+* Beginner Activities - example programs comprising a complete beginner course for teaching Raspberry Pi Pico programming in MicroPython using BEAPER Pico
+* LCD - a MicroPython ST7789 LCD driver module and example programs
+* VL53L0X - a VL53L0X ToF (Time of Flight) distance sensor driver module and example programs
 
-## Beginner Activities - New beginner learning activities
+## Beginner Activities - Beginner learning activities
+
+Each beginner activity contains an example program, Guided Exploration Activities to build understanding, and Extension Activities to practice learned skills.
 
 * BEAPER_Pico.py - BEAPER Pico board support module
 * Activity_B01_Output.py - Output, program structure
@@ -27,26 +29,22 @@ This repository contains:
 * B10_Motor_Controller_Project.py - PWM motor output
 * B10_Servo_Controller_Project.py - Servo output
 * B10_Sound_Controller_Project.py - Sound output
-
-## Introductory Programming Activities - Older beginner programming activities
-
-* BEAPER-Pico-Intro-1.py - Input and output programs, including if conditions, logical conditions, simple sounds, and the creation of a start-stop pushbutton circuit and bicycle turn signals.
-* BEAPER-Pico-Intro-2.py - Variable and constant programming, including the creation of a toggle button and a two-player rapid-clicker game.
-* BEAPER-Pico-Intro-3.py - Loops, including while and for loops, and an introduction to PWM.
-* BEAPER-Pico-Intro-4.py - Functions, including parameter passing and an Arduino-like tone() function.
-* BEAPER-Pico-Intro-5.py - Analog input, print output for debugging, f-string formatting, and a map() function.
+* B11_Timed_Analog_Output.py - Non-blocking timing
 
 ## LCD - MicroPython ST7789 LCD Driver Module
 
 * LCD.py - MicroPython LCD driver module
 * LCDConfig_Pico.py - BEAPER Pico LCD driver configuration file
-* LCDdemo.py - Graphics primitives drawing test
-* Breakout.py - Block breaker game
-* Fonts - Various fonts converted for use with LCD.py
+* LCD_Demo.py - graphics primitives drawing/timing test
+* Breakout.py - block breaker game
+* Text_Comparison.py - compare built-in font with selected TrueType font
+* bar-graph.py - bar graph function module
+* Bar_Graph_Demo.py - bar graph demo program
+* Fonts - Various TrueType fonts converted for use with LCD.py
 
 ## VL53L0X - Non-blocking ToF Driver Module
 
-* vl53l0x_nb.py - [Non-blocking VL53L0X driver](https://github.com/antirez/VL53L0X.git)
+* vl53l0x_nb.py - non-blocking [VL53L0X driver](https://github.com/antirez/VL53L0X.git)
 * BEAPER_Pico.py - BEAPER Pico board support module
 * ToF_SONAR_Comparison.py - Distance, acquisition time comparison (uses LCD)
-* ToF_Robot.py - BEAPER Pico robot using either non-blocking VL53L0X distance sensing code or SONAR distance sensing
+* ToF_Robot.py - BEAPER Pico robot using either non-blocking VL53L0X distance sensing or SONAR distance sensing
