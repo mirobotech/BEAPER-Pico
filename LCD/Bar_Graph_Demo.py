@@ -1,6 +1,6 @@
 """
-BEAPER Pico Bar Graph Test
-Updated: April 3, 2026
+BEAPER Pico Bar Graph Demo
+Updated: April 8, 2026
 
 Demonstrates the bar_graph module using BEAPER Pico's two potentiometers
 (RV1, RV2), ambient light sensor (Q4), and the MCU temperature sensor.
@@ -74,7 +74,7 @@ while True:
     rv1_val = beaper.RV1_level()
     rv2_val = beaper.RV2_level()
     q4_val  = beaper.light_level()
-    mcu_tmp = beaper.mcu_temperature()
+    mcu_temp = beaper.mcu_temperature()
 
     lcd.fill(lcd.BLUE50)
     
@@ -101,7 +101,7 @@ while True:
     
     # MCU temperature continuous bar with transparent background
     bar_graph.vertical(lcd, BAR4_X, BAR_TOP, BAR_W, BAR_L,
-                       mcu_tmp, 0, 50,
+                       mcu_temp, 0, 50,
                        MCU_COLOR)
 
     # Write labels and current values centred under each bar
@@ -112,7 +112,7 @@ while True:
     write_centred(str(rv1_val),  BAR1_X, BAR_W, VALUE_Y, RV1_COLOR)
     write_centred(str(rv2_val),  BAR2_X, BAR_W, VALUE_Y, RV2_COLOR)
     write_centred(str(q4_val),   BAR3_X, BAR_W, VALUE_Y, Q4_COLOR)
-    temp = f"{mcu_tmp:.1f}C"
+    temp = f"{mcu_temp:.1f}C"
     write_centred(str(temp),  BAR4_X, BAR_W, VALUE_Y, MCU_COLOR)
 
     time.sleep_ms(50)
