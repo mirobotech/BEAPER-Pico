@@ -194,11 +194,11 @@ while True:
     
     if SW5.value() == 0:
         LED.value(0)
-        tone(1000, 0.1)
+        tone(1000, 100)
         LED.value(1)
-        tone(2000, 0.1)
+        tone(2000, 100)
         LED.value(0)
-        tone(3000, 0.1)
+        tone(3000, 100)
         LED.value(1)
     
     # Update servo inputs every 20ms
