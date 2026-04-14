@@ -1,13 +1,12 @@
 """
 ================================================================================
 ToF_SONAR_Comparison.py
-April 7, 2026
+April 10, 2026
 
 Platform: mirobo.tech BEAPER Pico circuit
 Requires: BEAPER_Pico.py board support module file
           vl53l0x_nb.py non-blocking VL53L0X driver module
           LCDconfig_Pico.py LCD driver module
-          RedditSans_24.py font module
 
 Compares distance and ranging acquisition time for VL53L0X ToF (Time of Flight)
 and HC-SR04P SONAR distance sensor modules.
@@ -23,20 +22,48 @@ import time
 # LCD driver module
 import LCDconfig_Pico as lcd_config
 
-# Font module
-import RedditSans_24 as font24
-
 # VL53L0X module
 from vl53l0x_nb import VL53L0X
 
 # BEAPER Pico support module
 import BEAPER_Pico as beaper
 
+# --- Program Constants ----------------
+TIME_DIV = 500  # Scope grid horizontal time/div in us
+VOLT_DIV = 2    # Scope grid vertical Volts/div in V
+
 # --- Program Variables ----------------
 sonar_range_mm = 0
 sonar_time_us = 0
 tof_range_mm = 0
 tof_time_us = 0
+trig_time_us = 0
+
+time_mult = 24 / TIME_DIV
+volt_mult = 24 / VOLT_DIV
+
+# --- Start SONAR ranging, time SONAR TRIG -> ECHO delay
+def sonar_range_trig():
+    # Make a 10us TRIG pulse to start a range measurement
+    beaper.SONAR_TRIG.value(1)
+    time.sleep_us(10)
+    beaper.SONAR_TRIG.value(0)
+
+    trig_start = time.ticks_us()
+    while beaper.SONAR_ECHO.value() == 0:
+        time.sleep_us(1)
+    return time.ticks_diff(time.ticks_us(), trig_start)
+    
+# ---- Get SONAR range ---------------
+def sonar_range_echo():
+    # Measure ECHO pulse duration. Time-out value is set to round-trip
+    # time for max_range plus 1cm, in microseconds. (~29us/cm one way)
+    # duration = machine.time_pulse_us(beaper.SONAR_ECHO, 1, 100 * 58)
+    echo_start = time.ticks_us()
+    while beaper.SONAR_ECHO.value() == 1:
+        time.sleep_us(1)
+    return time.ticks_diff(time.ticks_us(), echo_start)
+    
 
 beaper.pico_led_on()
 
@@ -49,16 +76,17 @@ tof = VL53L0X(beaper.QWIIC)
 # Configure LCD
 lcd = lcd_config.config()
 
-# Write LCD headings into LCD framebuffer
+# Write LCD headings into framebuffer
 lcd.fill(0x0)
-lcd.write("VL53L0X", 0, 0, font24, lcd.WHITE, None)
-lcd.write("HC-SR04P", 120, 0, font24, lcd.WHITE, None)
+lcd.text16("SONAR", 0, 0, lcd.WHITE)
+lcd.text16("VL53L0X", 120, 0, lcd.WHITE)
 
 while True:
     # Measure time to acquire SONAR range
-    sonar_start = time.ticks_us()
-    sonar_range_mm = int(beaper.sonar_range() * 10) # convert to mm
-    sonar_time_us = time.ticks_diff(time.ticks_us(), sonar_start)
+    trig_time_us = sonar_range_trig()  # Time delay from TRIG -> ECHO
+    echo_time_us = sonar_range_echo()  # Time ECHO pulse
+    sonar_range_mm = int(echo_time_us / 5.8)
+    sonar_time_us = trig_time_us + echo_time_us
     
     # Measure time to acquire ToF range
     tof_start = time.ticks_us()
@@ -68,16 +96,52 @@ while True:
     tof_range_mm = tof.get_range_value() - 30 # offset for my windowed sensor
     tof_time_us = time.ticks_diff(time.ticks_us(), tof_start)
     
+    # Clear lower screen area
+    lcd.rect(0, 20, 240, 220, lcd.BLACK, True)
+
     # Write ranges and ranging times into LCD framebuffer
-    text = f"D: {tof_range_mm}mm  "
-    lcd.write(text, 0, 24, font24, lcd.WHITE, lcd.BLACK)
-    text = f"T: {tof_time_us}us  "
-    lcd.write(text, 0, 48, font24, lcd.WHITE, lcd.BLACK)
+    text = f"Dist:{sonar_range_mm}mm"
+    lcd.text16(text, 0, 20, lcd.WHITE75)
+    text = f"Time:{sonar_time_us}us"
+    lcd.text16(text, 0, 40, lcd.WHITE75)
     
-    text = f"D: {sonar_range_mm}mm  "
-    lcd.write(text, 120, 24, font24, lcd.WHITE, lcd.BLACK)
-    text = f"T: {sonar_time_us}us  "
-    lcd.write(text, 120, 48, font24, lcd.WHITE, lcd.BLACK)
+    text = f"TRIG time:{trig_time_us}us"
+    lcd.text16(text, 0, 80, lcd.WHITE75)
+    
+    text = f"Dist:{tof_range_mm}mm"
+    lcd.text16(text, 120, 20, lcd.WHITE75)
+    text = f"Time:{tof_time_us}us"
+    lcd.text16(text, 120, 40, lcd.WHITE75)
+    
+    lcd.vline(0, 96, 144, lcd.GREY)
+    for x in range(24, 241, 24):
+        lcd.vline(x-1, 96, 144, lcd.GREY)
+    for y in range(96, 241, 24):
+        lcd.hline(0, y-1, 240, lcd.GREY)
+    
+    # Set up virtual scope
+    trace = 0  # trace time 0
+    ch1 = 144  # Channel 1 GND reference
+    ch2 = 216  # Channel 2 GND reference
+
+    # TRIG pulse
+    sig = int(3.3 * volt_mult) 
+    lcd.vline(trace, ch1 - sig, sig, lcd.CYAN)
+    lcd.hline(trace, ch1, 240, lcd.CYAN)
+    
+    # TRIG delay
+    h = int(trig_time_us * time_mult)
+    lcd.hline(trace, ch2, h, lcd.YELLOW)
+    trace += h
+    
+    # ECHO pulse
+    lcd.vline(trace, ch2-sig, sig, lcd.YELLOW)
+    h = int((sonar_time_us - trig_time_us) * time_mult)
+    lcd.hline(trace, ch2 - sig, h, lcd.YELLOW)
+    trace += h
+    lcd.vline(trace, ch2 - sig, sig, lcd.YELLOW)
+    lcd.hline(trace, ch2, 240 - trace, lcd.YELLOW)
     
     # Update LCD from framebuffer
     lcd.update()
+
