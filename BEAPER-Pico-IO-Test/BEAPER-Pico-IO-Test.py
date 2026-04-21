@@ -1,6 +1,6 @@
 """
 BEAPER Pico I/O Test Project
-April 8, 2026
+April 15, 2026
 
 Functional test program for on-board BEAPER Pico I/O devices. Tests:
 
@@ -11,7 +11,7 @@ Functional test program for on-board BEAPER Pico I/O devices. Tests:
 
 Jumper settings:
   - set JP1-JP3 to Enviro. to select analog input devices Q4, RV1,
-    and RV2. If floor sensors are installed, jumpers can be moved to
+    and RV2. If floor sensors are installed, jumpers can be set to
     Robot to test Q1, Q2, Q3, inputs.
     
 See the https://mirobo.tech/beaper webpage for additional BEAPER Pico starter
@@ -40,7 +40,8 @@ LS1 = H8OUT = PWM(Pin(14), freq = 1000, duty_u16 = 0)
 Q1 = Q4 = ADC(Pin(26))
 Q2 = RV1 = ADC(Pin(27))
 Q3 = RV2 = ADC(Pin(28))
-temp_sensor = ADC(4)
+VSYS = ADC(Pin(29))  # Regulator input voltage VSYS / 3
+TEMP = ADC(ADC.CORE_TEMP)
 
 # BEAPER Pico 3.3V digital I/O
 H1IN = Pin(6, Pin.IN, Pin.PULL_UP)
@@ -57,8 +58,8 @@ H4IN = Pin(9, Pin.IN, Pin.PULL_UP)
 SERVO1 = PWM(Pin(20), freq=50, duty_u16=4916)
 #H6OUT = Pin(21, Pin.OUT)
 SERVO2 = PWM(Pin(21), freq=50, duty_u16=4916)
-H7OUT = Pin(22, Pin.OUT)
-#SERVO3 = PWM(Pin(22), freq=50, duty_u16=4916)
+# H7OUT = Pin(22, Pin.OUT)
+SERVO3 = PWM(Pin(22), freq=50, duty_u16=4916)
 
 # Start a tone at specified frequency (Hz), and stop the tone after
 # an optional duration (ms)
@@ -222,7 +223,7 @@ while True:
         print("Range:", int(range_cm), "cm")
         # Read and print analog input levels
         lightLevel = Q4.read_u16()
-        rawTemp = temp_sensor.read_u16()
+        rawTemp = TEMP.read_u16()
         print("Light level: ", lightLevel)
         print("Temp level: ", rawTemp)
         print("RV1 position: ", rv1_pos)
