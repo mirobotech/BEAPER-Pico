@@ -105,6 +105,7 @@ BLACK - 0% white
 
 ## Example use:
 
+```
 import LCDconfig_Pico as lcd_config     # Custom config for BEAPER Pico I/O
 # import LCDconfig_Nano as lcd_config     # Use this config for BEAPER Nano
 import NotoSansDisplay_24 as font24     # Load converted display font
@@ -115,5 +116,5 @@ lcd.fill(lcd.BLACK)     # Fill framebuffer with black
 lcd.round_rect(0, 0, 200, 40, 10, lcd.BLUE75, True)  # Draw filled blue round rect
 lcd.write("Hello, world!", 10, 10, font24, lcd.YELLOW)  # Write text string
 lcd.update()            # update the LCD display
-
+```
 
