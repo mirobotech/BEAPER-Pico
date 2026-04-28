@@ -8,8 +8,9 @@ Requires: BEAPER_Pico.py board support module file
           vl53l0x_nb.py non-blocking VL53L0X driver module
           LCDconfig_Pico.py LCD driver module
 
-Compares distance and ranging acquisition time for VL53L0X ToF (Time of Flight)
-and HC-SR04P SONAR distance sensor modules.
+Compares distance results and ranging acquisition time between
+HC-SR04(P) SONAR and VL53L0X ToF (Time of Flight) modules using
+LCD text output and a simulated oscilloscope display.
 ================================================================================
 """
 
@@ -142,6 +143,12 @@ while True:
     lcd.vline(trace, ch2 - sig, sig, lcd.YELLOW)
     lcd.hline(trace, ch2, 240 - trace, lcd.YELLOW)
     
+    # Unit display
+    text = f"T:{TIME_DIV}us/div"
+    lcd.text(text, 16, 230, lcd.WHITE75)
+    text = f"V:{VOLT_DIV}V/div"
+    lcd.text(text, 150, 230, lcd.WHITE75)
+
     # Update LCD from framebuffer
     lcd.update()
 
