@@ -1,7 +1,7 @@
 """
 ================================================================================
 Capstone Project: Analog Sensor Monitor [BEAPER_Pico-Capstone_Analog_Monitor.py]
-April 21, 2026
+April 22, 2026
 
 Platform: mirobo.tech BEAPER Pico circuit (any configuration)
 Requires: BEAPER_Pico.py board module file.
@@ -24,24 +24,24 @@ Suggested applications:
     Environmental logger    - multiple analog sensors;
                                                         LED bar graph display, serial data output
 
-Analog inputs available (set jumpers as needed):
-    BEAPER Pico Enviro. mode (set all JP jumpers to Enviro.):
-        beaper.light_level()   - Ambient light (Q4, JP1)
-        beaper.RV1_level()     - Potentiometer RV1 (JP2) - useful as a threshold knob
-        beaper.RV2_level()     - Potentiometer RV2 (JP3) - useful as a threshold knob
+On-board analog inputs available (set jumpers to Enviro. mode):
+    beaper.light_level()   - Ambient light sensor Q4 (JP1)
+    beaper.RV1_level()     - Potentiometer RV1 (JP2) - useful as a threshold knob
+    beaper.RV2_level()     - Potentiometer RV2 (JP3) - useful as a threshold knob
 
-Digital inputs available (no jumper changes):
-        beaper.SW2 to beaper.SW5  - Pushbuttons (active LOW, INPUT_PULLUP)
-        beaper.H1 to beaper.H4    - Expansion headers (for external sensors/switches)
+Digital inputs available:
+    beaper.SW2 to beaper.SW5  - Pushbuttons (active LOW, INPUT_PULLUP)
+    beaper.H1 to beaper.H4    - Expansion headers (for external sensors/switches)
 
 Analog outputs available:
-        beaper.LS1             - Piezo speaker (tone() / noTone())
-        beaper.LED2 to LED5    - LEDs (digital on/off or PWM brightness)
-        Servo on H9 or H10     - Position control (0-180 degrees)
+    beaper.LS1             - Piezo speaker (tone() / noTone())
+    beaper.LED2 to LED5    - LEDs (digital on/off or PWM brightness)
+    Servo headers H5 to H7 - Servo position (set_servo())
 
 Digital outputs available:
-        beaper.LED2 to LED5    - LEDs (on/off)
-        H9, H10                - Motor driver or other digital outputs
+    beaper.LED2 to LED5    - LEDs (on/off)
+    Headers H1 to H4       - 3.3V output headers
+    Headers H5 to H7       - 5V output headers
 
 --------------------------------------------------------------------------------
 Before you begin - complete your capstone plan using the preparation guide:
@@ -195,9 +195,9 @@ def check_conditions():
 def apply_outputs():
     # --- Cooling fan (example) ------------------------------------------------
     if fan_on:
-        beaper.left_motor_forward()    # TODO: replace with your motor/output call
+        beaper.right_motor_forward()    # TODO: replace with your motor/output call
     else:
-        beaper.motors_stop()
+        beaper.right_motor_stop()
 
     # --- Status LED (example) -------------------------------------------------
     beaper.LED2.value(1 if alert_active else 0)
