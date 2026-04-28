@@ -63,9 +63,9 @@ This LCD.py driver is extended from Russ Hughes' extensive and excellent [st7789
 
 * text(s, x, y [, c]) - write text string s using MicroPython's built-in 8x8 pixel font at location x,y, using optional color c (if color is not provided, text is written using 75% white). Each character is 8 pixels wide and 8 pixels tall, giving up to 30 characters per row on a 240-pixel wide display.
 
-* text16(s, x, y [, c]) - write text string s using this module's built-in 10x16 pixel font at location x,y, using optional color c (if color is not proviced, text is written using 75% white). Each character is 10 pixels wide and 16 pixels tall, giving up to 24 characters per row on a 240-pixel wide display.
+* text16(s, x, y [, c]) - write text string s using this module's built-in 10x16 pixel font at location x,y, using optional color c (if color is not provided, text is written using 75% white). Each character is 10 pixels wide and 16 pixels tall, giving up to 24 characters per row on a 240-pixel wide display.
 
-* text16_width(s) - return the pixel width of string s in the built-in 10x16 pixel font (always len(s) * 10)
+* text16_width(s) - return the pixel width of string s using the built-in 10x16 pixel font (always len(s) * 10)
 
 * text16_height() - return the pixel height of the built-in 10x16 pixel font (always 16)
 
