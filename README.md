@@ -12,7 +12,7 @@ This repository contains:
 
 ## Beginner Activities - Beginner learning activities
 
-Each beginner activity contains an example program, Guided Exploration Activities to build understanding, and Extension Activities to practice learned skills.
+Each beginner activity consists of an example program, Guided Exploration Activities to build understanding, and Extension Activities to practice learned skills. Some beginner activities include additional extension project activities.
 
 * BEAPER_Pico.py - BEAPER Pico board support module
 * Activity_B01_Output.py - Output, program structure
