@@ -76,31 +76,31 @@ This LCD.py driver is extended from Russ Hughes' extensive and excellent [st7789
 * write_height(font) - return the pixel height of characters in the specified converted TrueType font
 
 
-** Pre-defined colors:
+## Pre-defined colors:
 
-WHITE - 100% white
-WHITE75 - 75% white
-WHITE50 - 50% white
-YELLOW - 100% yellow
-YELLOW75 - 75% yellow
-YELLOW50 - 50% yellow
-CYAN - 100% cyan
-CYAN75 - 75% cyan
-CYAN50 - 50% cyan
-GREEN - 100% green
-GREEN75 - 75% green
-GREEN50 - 50% green
-MAGENTA - 100% magenta
-MAGENTA75 - 75% magenta
-MAGENTA50 - 50% magenta
-RED - 100% red
-RED75 - 75% red
-RED50 - 50% red
-BLUE - 100% blue
-BLUE75 - 75% blue
-BLUE50 - 50% blue
-GREY (or GRAY) - 25% white
-BLACK - 0% white
+* WHITE - 100% white
+* WHITE75 - 75% white
+* WHITE50 - 50% white
+* YELLOW - 100% yellow
+* YELLOW75 - 75% yellow
+* YELLOW50 - 50% yellow
+* CYAN - 100% cyan
+* CYAN75 - 75% cyan
+* CYAN50 - 50% cyan
+* GREEN - 100% green
+* GREEN75 - 75% green
+* GREEN50 - 50% green
+* MAGENTA - 100% magenta
+* MAGENTA75 - 75% magenta
+* MAGENTA50 - 50% magenta
+* RED - 100% red
+* RED75 - 75% red
+* RED50 - 50% red
+* BLUE - 100% blue
+* BLUE75 - 75% blue
+* BLUE50 - 50% blue
+* GREY (or GRAY) - 25% white
+* BLACK - 0% white
 
 
 ## Example use:
