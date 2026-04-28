@@ -2,13 +2,13 @@
 
 ## Beginner Electronics and Programming Educational Robot (BEAPER) for Raspberry Pi Pico
 
-[BEAPER Pico](https://mirobo.tech/beaper) is a beginner circuit kit for learning and teaching microcontroller programming and robotics using Raspberry Pi Pico microcontrollers.
+[BEAPER Pico](https://mirobo.tech/beaper) is a beginner circuit kit for learning and teaching microcontroller programming and robotics using Raspberry Pi Pico microcontrollers and MicroPython.
 
 This repository contains:
-* Arduino - a header file for programming BEAPER Pico using the Arduino IDE
-* Beginner Activities - example programs comprising a complete beginner course for teaching Raspberry Pi Pico programming in MicroPython using BEAPER Pico
-* LCD - a MicroPython ST7789 LCD driver module and example programs
-* VL53L0X - a VL53L0X ToF (Time of Flight) distance sensor driver module and example programs
+* Arduino - an example C header file enabling BEAPER Pico to be programmed using the Arduino IDE and the [arduino-pico core](https://github.com/earlephilhower/arduino-pico)
+* Beginner Activities - a complete MicroPython beginner curriculum for BEAPER Pico in the form of lesson activities, extension projects, and capstone project templates
+* LCD - a MicroPython ST7789 LCD driver module for BEAPER Pico along with example LCD programs
+* VL53L0X - a non-blocking VL53L0X ToF (Time of Flight) distance sensor driver module and example programs
 
 ## Beginner Activities - Beginner learning activities
 
@@ -33,6 +33,13 @@ Each beginner activity contains an example program, Guided Exploration Activitie
 * B11_Timed_Analog_Output.py - Non-blocking timing project
 * Activity_B12_State_Machines.py - A new way to structure programs
 * B12_Combination_Lock_Project.py - Digital safe project
+* Microcontroller Core Curriculum.md - Curriculum overview
+* Numeric Types.md - Numeric types explainer
+* Capstone Preparation Guide - Capstone project explainer
+* Analog_Monitor.py - Analog monitor capstone project template
+* Line_Follower.py - Line following robot capstone project template
+* Simon_Game.py - Memory game capstone project template
+* Sumo_Robot.py - Sumo robot capstone project template
 
 ## LCD - MicroPython ST7789 LCD Driver Module
 
@@ -43,7 +50,7 @@ Each beginner activity contains an example program, Guided Exploration Activitie
 * Text_Comparison.py - compare built-in font with selected TrueType font
 * bar-graph.py - bar graph function module
 * Bar_Graph_Demo.py - bar graph demo program
-* Fonts - Various TrueType fonts converted for use with LCD.py
+* Fonts - A selection of TrueType fonts converted for use with LCD.py
 
 ## VL53L0X - Non-blocking ToF Driver Module
 
