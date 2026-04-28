@@ -1,6 +1,6 @@
 """
 BEAPER Pico Text Comparison
-Updated: April 2, 2026
+Updated: April 28, 2026
 
 Compares the time taken to write text using text16() with the built-in
 display font and write() using converted TrueType fonts while allowing
@@ -28,7 +28,7 @@ import time
 import LCDconfig_Pico as lcd_config     # Customized for BEAPER Pico I/O pins
 
 # Import converted TrueType font as font16 for comparison
-import RedditSans_16 as font16
+import NotoSansDisplay_16 as font16
 
 # Built-in Raspberry Pi Pico LED
 LED = Pin("LED", Pin.OUT, value=1)
