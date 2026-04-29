@@ -1,7 +1,7 @@
 """
 ================================================================================
 ToF_SONAR_Comparison.py
-April 10, 2026
+April 29, 2026
 
 Platform: mirobo.tech BEAPER Pico circuit
 Requires: BEAPER_Pico.py board support module file
@@ -45,7 +45,7 @@ volt_mult = 24 / VOLT_DIV
 
 # --- Start SONAR ranging, time SONAR TRIG -> ECHO delay
 def sonar_range_trig():
-    # Make a 10us TRIG pulse to start a range measurement
+    # Make a 10us TRIG pulse and measure delay until ECHO starts.
     beaper.SONAR_TRIG.value(1)
     time.sleep_us(10)
     beaper.SONAR_TRIG.value(0)
@@ -57,9 +57,7 @@ def sonar_range_trig():
     
 # ---- Get SONAR range ---------------
 def sonar_range_echo():
-    # Measure ECHO pulse duration. Time-out value is set to round-trip
-    # time for max_range plus 1cm, in microseconds. (~29us/cm one way)
-    # duration = machine.time_pulse_us(beaper.SONAR_ECHO, 1, 100 * 58)
+    # Measure ECHO pulse duration.
     echo_start = time.ticks_us()
     while beaper.SONAR_ECHO.value() == 1:
         time.sleep_us(1)
@@ -83,10 +81,10 @@ lcd.text16("SONAR", 0, 0, lcd.WHITE)
 lcd.text16("VL53L0X", 120, 0, lcd.WHITE)
 
 while True:
-    # Measure time to acquire SONAR range
+    # Measure time to acquire SONAR range and convert range
     trig_time_us = sonar_range_trig()  # Time delay from TRIG -> ECHO
     echo_time_us = sonar_range_echo()  # Time ECHO pulse
-    sonar_range_mm = int(echo_time_us / 5.8)
+    sonar_range_mm = int(echo_time_us / 5.82)
     sonar_time_us = trig_time_us + echo_time_us
     
     # Measure time to acquire ToF range
@@ -114,28 +112,29 @@ while True:
     text = f"Time:{tof_time_us}us"
     lcd.text16(text, 120, 40, lcd.WHITE75)
     
+    # Draw oscilloscope grid
     lcd.vline(0, 96, 144, lcd.GREY)
     for x in range(24, 241, 24):
         lcd.vline(x-1, 96, 144, lcd.GREY)
     for y in range(96, 241, 24):
         lcd.hline(0, y-1, 240, lcd.GREY)
     
-    # Set up virtual scope
+    # Virtual scope parameters
     trace = 0  # trace time 0
     ch1 = 144  # Channel 1 GND reference
     ch2 = 216  # Channel 2 GND reference
 
-    # TRIG pulse
+    # Draw TRIG pulse
     sig = int(3.3 * volt_mult) 
     lcd.vline(trace, ch1 - sig, sig, lcd.CYAN)
     lcd.hline(trace, ch1, 240, lcd.CYAN)
     
-    # TRIG delay
+    # Draw TRIG delay
     h = int(trig_time_us * time_mult)
     lcd.hline(trace, ch2, h, lcd.YELLOW)
     trace += h
     
-    # ECHO pulse
+    # Draw ECHO pulse
     lcd.vline(trace, ch2-sig, sig, lcd.YELLOW)
     h = int((sonar_time_us - trig_time_us) * time_mult)
     lcd.hline(trace, ch2 - sig, h, lcd.YELLOW)
