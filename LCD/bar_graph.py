@@ -1,50 +1,49 @@
 """
 bar_graph.py
-April 3, 2026
+April 29, 2026
 
-Bar graph functions for creating continuous and segmented bar graphs
-using the LCD.py driver module on BEAPER Pico and BEAPER Nano.
+Bar graph functions using using the LCD.py driver module. Creates
+horizontal or vertical, continuous or segmented bar graphs.
 
 Requires:
-    LCD.py - LCD driver module that extends the MicroPython framebuffer
+    LCD.py - LCD driver module (extends MicroPython framebuffer)
 
 Functions:
-    bar_graph_v   - Continuous vertical bar graph
-    bar_graph_h   - Continuous horizontal bar graph
-    sbar_graph_v  - Segmented vertical bar graph
-    sbar_graph_h  - Segmented horizontal bar graph
+    vertical        - Continuous vertical bar graph
+    horizontal      - Continuous horizontal bar graph
+    seg_vertical    - Segmented vertical bar graph
+    seg_horizontal  - Segmented horizontal bar graph
 
-Continuous bar graphs (bar_graph_v, bar_graph_h) - draw a value on a
+Continuous bar graphs (vertical, horizontal) - draw a value on a
     continuous vertical or horizontal bar graph, with:
-        - a specified color
+        - a specified bar color
         - minimum and maximum bar graph values (default 0-100)
-        - optional background color (to prevent persistence and
-          enable partial LCD updates) or a transparent background
-          (requires background to be re-drawn each bar graph update)
-        - an optional border using specified color and width
-        - optional padding to inset the bar from the border
+        - an optional background color (to prevent persistence and/or
+          enable partial LCD updates) or over a transparent background
+        - an optional border color and width, incuding optional
+          padding to inset the bar from the border
 
-Segmented bar graphs (sbar_graph_v, sbar_graph_h) - draw a value on a
-    segmented vertical or horizontal bar graph (like simulated LEDs,
-    with each segment fully lit at the mid-point of its sub-range), with:
+Segmented bar graphs (seg_vertical, seg_horizontal) - draw a value on
+    a segmented vertical or horizontal bar graph (like simulated LEDs -
+    segments are fully lit at the mid-point of their sub-range), with:
         - a specified color
         - minimum and maximum bar graph values (default 0-100)
-        - optional background color (to prevent persistence and
-          enable partial LCD updates) or a transparent background
-          (requires background to be re-drawn each bar graph update)
+        - an optional background color (to prevent persistence and/or
+          enable partial LCD updates) or over a transparent background
         - an optional border using specified color and width
         - optional padding to inset the segments from the border and
           space segments from each other 
-        - the specified number of segments
+        - a selectable number of segments (default 10)
 
 Border behaviour:
-    If border > 0, a border is drawn. border_color defaults to lcd.BLACK
-    if not supplied.
+    If border > 0, draws a border. If not supplied, border_color
+    defaults to lcd.BLACK. 
 
 Padding behaviour:
     The padding parameter controls the inset of the bar from the inner
-    edges of the border on all sides. A padding of 0 fills the bar flush
-    to the border. A padding > 0 floats the bar within the border. In
+    edges of the border on all sides and attempts to center a segmented
+    bar graph within the borders. A padding of 0 fills the bar flush
+    to the border, and padding > 0 floats the bar within the border. In
     segmented graphs, padding also controls the spacing between segments.
 
 Usage examples:
@@ -52,20 +51,22 @@ Usage examples:
 
     # Continuous bar displaying values from 0-100, background provided by caller
     lcd.fill(lcd.BLACK)
-    bar_graph.bar_graph_v(lcd, x, y, width, length, value, color=lcd.GREEN)
+    bar_graph.vertical(lcd, x, y, width, length, value, color=lcd.GREEN)
     lcd.update()
 
     # Continuous bar from 0-65535 with bg_color and border for in-place updates
-    bar_graph.bar_graph_v(lcd, x, y, width, length,
-                          value, 0, 65535, color=lcd.GREEN,
-                          bg_color=lcd.BLACK, border=2, border_color=lcd.GREY,
-                          padding=2)
+    bar_graph.vertical(lcd, x, y, width, length,
+                       value, 0, 65535,
+                       color=lcd.GREEN, bg_color=lcd.BLACK,
+                       border=2, border_color=lcd.GREY,
+                       padding=2)
     lcd.update()
 
-    # Segmented bar, default 10 segments, from 10-30, with navy background
-    bar_graph.sbar_graph_v(lcd, x, y, width, length,
-                           value, 10, 30, color=lcd.CYAN,
-                           bg_color-lcd.BLUE50, padding=2)
+    # Segmented bar, default 10 segments, values from 10-30, with navy background
+    bar_graph.seg_vertical(lcd, x, y, width, length,
+                           value, 10, 30,
+                           color=lcd.CYAN, bg_color-lcd.BLUE50,
+                           2, 10)
     lcd.update()
 """
 
@@ -94,14 +95,14 @@ def _border_and_inner(lcd, x, y, width, height, border, border_color):
 # Continuous vertical bar graph
 # ---------------------------------------------------------------------
 
-def bar_graph_v(lcd, x, y, width=BAR_SHORT, length=BAR_LONG,
-                value=0, min_val=0, max_val=100,
-                color=None, bg_color=None,
-                border=0, border_color=None,
-                padding=0):
+def vertical(lcd, x, y, width=BAR_SHORT, length=BAR_LONG,
+             value=0, min_val=0, max_val=100,
+             color=None, bg_color=None,
+             border=0, border_color=None,
+             padding=0):
     """
     Draw a continuous vertical bar graph, growing upward from the bottom.
-    Bar is drawn over the background (or bg_color fill).
+    Bar is drawn over the background (or optional bg_color).
 
     Parameters:
         lcd          - LCD canvas object (from LCD.py)
@@ -109,8 +110,8 @@ def bar_graph_v(lcd, x, y, width=BAR_SHORT, length=BAR_LONG,
         width        - Width of the bar graph in pixels
         length       - Length (height) of the bar graph in pixels
         value        - Current value to display
-        min_val      - Value corresponding to an empty bar
-        max_val      - Value corresponding to a full bar
+        min_val      - Value corresponding to an empty bar (default = 0)
+        max_val      - Value corresponding to a full bar (default = 100)
         color        - Colour of the filled bar (defaults to lcd.WHITE)
         bg_color     - Colour of the bar interior; if None (default), only
                        the filled portion is drawn and the caller manages
@@ -149,14 +150,14 @@ def bar_graph_v(lcd, x, y, width=BAR_SHORT, length=BAR_LONG,
 # Continuous horizontal bar graph
 # ---------------------------------------------------------------------
 
-def bar_graph_h(lcd, x, y, width=BAR_LONG, length=BAR_SHORT,
-                value=0, min_val=0, max_val=100,
-                color=None, bg_color=None,
-                border=0, border_color=None,
-                padding=0):
+def horizontal(lcd, x, y, width=BAR_LONG, length=BAR_SHORT,
+               value=0, min_val=0, max_val=100,
+               color=None, bg_color=None,
+               border=0, border_color=None,
+               padding=0):
     """
     Draw a continuous horizontal bar graph, growing rightward from the left.
-    Bar is drawn over the background (or bg_color fill).
+    Bar is drawn over the background (or optional bg_color).
 
     Parameters:
         lcd          - LCD canvas object (from LCD.py)
@@ -204,7 +205,7 @@ def bar_graph_h(lcd, x, y, width=BAR_LONG, length=BAR_SHORT,
 # Segmented vertical bar graph
 # ---------------------------------------------------------------------
 
-def sbar_graph_v(lcd, x, y, width=BAR_SHORT, length=BAR_LONG,
+def seg_vertical(lcd, x, y, width=BAR_SHORT, length=BAR_LONG,
                  value=0, min_val=0, max_val=100,
                  color=None, bg_color=None,
                  border=0, border_color=None,
@@ -229,7 +230,8 @@ def sbar_graph_v(lcd, x, y, width=BAR_SHORT, length=BAR_LONG,
         border_color - Colour of border; defaults to lcd.BLACK if
                        border > 0 and border_color is not supplied
         padding      - Gap between segments and inset from side edges
-        segments     - Number of LED-style segments (1 = single on/off block)
+        segments     - Number of LED-style segments (default = 10,
+                       1 = single on/off block)
     """
     if color is None:
         color = lcd.WHITE
@@ -268,11 +270,11 @@ def sbar_graph_v(lcd, x, y, width=BAR_SHORT, length=BAR_LONG,
 # Segmented horizontal bar graph
 # ---------------------------------------------------------------------
 
-def sbar_graph_h(lcd, x, y, width=BAR_LONG, length=BAR_SHORT,
-                 value=0, min_val=0, max_val=100,
-                 color=None, bg_color=None,
-                 border=0, border_color=None,
-                 padding=BAR_PADDING, segments=10):
+def seg_horizontal(lcd, x, y, width=BAR_LONG, length=BAR_SHORT,
+                   value=0, min_val=0, max_val=100,
+                   color=None, bg_color=None,
+                   border=0, border_color=None,
+                   padding=BAR_PADDING, segments=10):
     """
     Draw a horizontal bar graph with LED-style segments, growing rightward.
     'Lit' segments are drawn over the background (or bg_color fill).
@@ -293,7 +295,8 @@ def sbar_graph_h(lcd, x, y, width=BAR_LONG, length=BAR_SHORT,
         border_color - Colour of border; defaults to lcd.BLACK if
                        border > 0 and border_color is not supplied
         padding      - Gap between segments and inset from top/bottom edges
-        segments     - Number of LED-style segments (1 = single on/off block)
+        segments     - Number of LED-style segments (default = 10,
+                       1 = single on/off block)
     """
     if color is None:
         color = lcd.WHITE
