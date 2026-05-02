@@ -8,10 +8,9 @@ other hardware devices.
 
 ## Curriculum Overview
 
-- the Microcontroller Core Curriculum file provides a complete curriculum outline
+- the **Microcontroller Core Curriculum.md** file provides a complete curriculum outline
 
 ## Additional Resources
 
-- the BEAPER Pico Circuit Specifications file describes the BEAPER Pico hardware
-- the Sidebar Numeric Types file is a resource describing number systems
+- the **Numeric-Types.md** file is a resource describing number systems
 - the Capstone Preparation Guide helps students plan their capstone project
