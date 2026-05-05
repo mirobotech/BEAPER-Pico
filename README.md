@@ -5,12 +5,12 @@
 [BEAPER Pico](https://mirobo.tech/beaper) is a beginner circuit kit for learning and teaching microcontroller programming and robotics using Raspberry Pi Pico microcontrollers and MicroPython.
 
 This repository contains:
-**/Arduino** - an example C header file created to allow BEAPER Pico to be programmed using the Arduino IDE and the [arduino-pico core](https://github.com/earlephilhower/arduino-pico)
-**BEAPER_Pico.py** - a MicroPython board support module for BEAPER Pico. Copy BEAPER_Pico.py into the Raspberry Pi Pico filesystem for the activities to access it
-**/Beginner Activities** - a complete MicroPython beginner curriculum for BEAPER Pico in the form of lesson activities, extension projects, and starter capstone project templates
-**/LCD** - a MicroPython ST7789 LCD driver module for BEAPER Pico along with example LCD programs
-**/SONAR** - an HC-SR04(P) SONAR module timing test program
-**/VL53L0X** - a non-blocking VL53L0X ToF (Time of Flight) distance sensor driver module and example programs
+** /Arduino ** - an example C header file created to allow BEAPER Pico to be programmed using the Arduino IDE and the [arduino-pico core](https://github.com/earlephilhower/arduino-pico)
+** BEAPER_Pico.py ** - a MicroPython board support module for BEAPER Pico. Copy BEAPER_Pico.py into the Raspberry Pi Pico filesystem for the activities to access it
+** /Beginner Activities ** - a complete MicroPython beginner curriculum for BEAPER Pico in the form of lesson activities, extension projects, and starter capstone project templates
+** /LCD ** - a MicroPython ST7789 LCD driver module for BEAPER Pico along with example LCD programs
+** /SONAR ** - an HC-SR04(P) SONAR module timing test program
+** /VL53L0X ** - a non-blocking VL53L0X ToF (Time of Flight) distance sensor driver module and example programs
 
 ## Beginner Activities - Beginner learning activities
 
