@@ -1,7 +1,7 @@
 """
 ================================================================================
 ToF_SONAR_Comparison.py
-April 29, 2026
+May 4, 2026
 
 Platform: mirobo.tech BEAPER Pico circuit
 Requires: BEAPER_Pico.py board support module file
@@ -10,7 +10,7 @@ Requires: BEAPER_Pico.py board support module file
 
 Compares distance results and ranging acquisition time between
 HC-SR04(P) SONAR and VL53L0X ToF (Time of Flight) modules using
-LCD text output and a simulated oscilloscope display.
+LCD text output and an oscilloscope-like display.
 ================================================================================
 """
 
