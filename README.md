@@ -4,25 +4,20 @@
 
 [BEAPER Pico](https://mirobo.tech/beaper) is a beginner circuit kit for learning and teaching microcontroller programming and robotics using Raspberry Pi Pico microcontrollers and MicroPython.
 
-### This repository contains: ###
+** This repository contains: **
 
 ## **/Arduino** ##
-- an example C header file created to allow BEAPER Pico to be programmed using the Arduino IDE and the [arduino-pico core](https://github.com/earlephilhower/arduino-pico).
-
-**BEAPER_Pico.py** - a MicroPython board support module for BEAPER Pico. Copy BEAPER_Pico.py into the Raspberry Pi Pico filesystem.
-
-**/Beginner Activities** - a complete MicroPython beginner curriculum for BEAPER Pico in the form of lesson activities, extension projects, and starter capstone project templates.
-
-**/LCD** - a MicroPython ST7789 LCD driver module for BEAPER Pico along with example LCD programs.
-
-**/SONAR** - an HC-SR04(P) SONAR module timing test program.
-
-**/VL53L0X** - a non-blocking VL53L0X ToF (Time of Flight) distance sensor driver module and example programs.
+An example C header file created to allow BEAPER Pico to be programmed using the Arduino IDE and the [arduino-pico core](https://github.com/earlephilhower/arduino-pico).
 
 
-## Beginner Activities - Beginner learning activities
+## **BEAPER_Pico.py** ##
+A MicroPython board support module for BEAPER Pico. Copy BEAPER_Pico.py into the Raspberry Pi Pico filesystem to use it with the Beginner Activities as well as other example programs.
 
-Each beginner activity consists of an example program, Guided Exploration Activities to build understanding, and Extension Activities to practice learned skills. Some beginner activities include additional extension project activities.
+
+## **/Beginner Activities** ##
+A complete beginner curriculum containing beginner learning activities for BEAPER Pico.
+
+Each beginner activity consists of an example program, Guided Exploration Activities to build understanding, and Extension Activities to practice learned skills. Some beginner activities include additional extension projects.
 
 * BEAPER_Pico.py - BEAPER Pico board support module
 * Activity_B01_Output.py - Output, program structure
@@ -48,10 +43,13 @@ Each beginner activity consists of an example program, Guided Exploration Activi
 * Capstone Preparation Guide - Capstone project explainer
 * Analog_Monitor.py - Analog monitor capstone project template
 * Line_Follower.py - Line following robot capstone project template
+* NeoPixel_Controller.py - NeoPixel lighting effects capstone project template
 * Simon_Game.py - Memory game capstone project template
 * Sumo_Robot.py - Sumo robot capstone project template
 
-## LCD - MicroPython ST7789 LCD Driver Module
+
+## **/LCD** ##
+A MicroPython ST7789 LCD driver module for BEAPER Pico along with example LCD programs.
 
 * LCD.py - MicroPython LCD driver module
 * LCDConfig_Pico.py - BEAPER Pico LCD driver configuration file
@@ -62,7 +60,13 @@ Each beginner activity consists of an example program, Guided Exploration Activi
 * Bar_Graph_Demo.py - bar graph demo program
 * Fonts - A selection of TrueType fonts converted for use with LCD.py
 
-## VL53L0X - Non-blocking ToF Driver Module
+
+## **/SONAR** ##
+An HC-SR04(P) SONAR module timing test program.
+
+
+## **/VL53L0X** ##
+A non-blocking VL53L0X ToF (Time of Flight) distance sensor driver module and example programs.
 
 * vl53l0x_nb.py - non-blocking [VL53L0X driver](https://github.com/antirez/VL53L0X.git)
 * BEAPER_Pico.py - BEAPER Pico board support module
