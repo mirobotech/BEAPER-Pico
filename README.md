@@ -4,7 +4,7 @@
 
 [BEAPER Pico](https://mirobo.tech/beaper) is a beginner circuit kit for learning and teaching microcontroller programming and robotics using Raspberry Pi Pico microcontrollers and MicroPython.
 
-** This repository contains: **
+This repository contains:
 
 ## **/Arduino** ##
 An example C header file created to allow BEAPER Pico to be programmed using the Arduino IDE and the [arduino-pico core](https://github.com/earlephilhower/arduino-pico).
