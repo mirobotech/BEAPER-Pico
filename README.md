@@ -1,20 +1,20 @@
 # BEAPER-Pico
 
-## Beginner Electronics and Programming Educational Robot (BEAPER) for Raspberry Pi Pico
+### Beginner Electronics and Programming Educational Robot (BEAPER) for Raspberry Pi Pico
 
 [BEAPER Pico](https://mirobo.tech/beaper) is a beginner circuit kit for learning and teaching microcontroller programming and robotics using Raspberry Pi Pico microcontrollers and MicroPython.
 
 This repository contains:
 
-## **/Arduino** ##
+## **/Arduino**
 An example C header file created to allow BEAPER Pico to be programmed using the Arduino IDE and the [arduino-pico core](https://github.com/earlephilhower/arduino-pico).
 
 
-## **BEAPER_Pico.py** ##
+## **BEAPER_Pico.py**
 A MicroPython board support module for BEAPER Pico. Copy BEAPER_Pico.py into the Raspberry Pi Pico filesystem to use it with the Beginner Activities as well as other example programs.
 
 
-## **/Beginner Activities** ##
+## **/Beginner Activities**
 A complete beginner curriculum containing beginner learning activities for BEAPER Pico.
 
 Each beginner activity consists of an example program, Guided Exploration Activities to build understanding, and Extension Activities to practice learned skills. Some beginner activities include additional extension projects.
@@ -48,7 +48,7 @@ Each beginner activity consists of an example program, Guided Exploration Activi
 * Sumo_Robot.py - Sumo robot capstone project template
 
 
-## **/LCD** ##
+## **/LCD**
 A MicroPython ST7789 LCD driver module for BEAPER Pico along with example LCD programs.
 
 * LCD.py - MicroPython LCD driver module
@@ -61,11 +61,11 @@ A MicroPython ST7789 LCD driver module for BEAPER Pico along with example LCD pr
 * Fonts - A selection of TrueType fonts converted for use with LCD.py
 
 
-## **/SONAR** ##
+## **/SONAR**
 An HC-SR04(P) SONAR module timing test program.
 
 
-## **/VL53L0X** ##
+## **/VL53L0X**
 A non-blocking VL53L0X ToF (Time of Flight) distance sensor driver module and example programs.
 
 * vl53l0x_nb.py - non-blocking [VL53L0X driver](https://github.com/antirez/VL53L0X.git)
