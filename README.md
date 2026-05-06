@@ -2,17 +2,19 @@
 
 ### Beginner Electronics and Programming Educational Robot (BEAPER) for Raspberry Pi Pico
 
-[BEAPER Pico](https://mirobo.tech/beaper) is a beginner circuit kit for learning and teaching microcontroller programming and robotics using Raspberry Pi Pico microcontrollers and MicroPython.
+[BEAPER Pico](https://mirobo.tech/beaper) is a circuit kit for learning and teaching beginner microcontroller programming, electronics, and robotics with Raspberry Pi Pico microcontrollers and MicroPython.
 
 This repository contains:
 
 ## **/Arduino**
+
+* BEAPERPico.h - C board header file
+
 An example C header file created to allow BEAPER Pico to be programmed using the Arduino IDE and the [arduino-pico core](https://github.com/earlephilhower/arduino-pico).
 
-
 ## **BEAPER_Pico.py**
-A MicroPython board support module for BEAPER Pico. Copy BEAPER_Pico.py into the Raspberry Pi Pico filesystem to use it with the Beginner Activities as well as other example programs.
 
+A MicroPython board support module for BEAPER Pico. Copy BEAPER_Pico.py into the Raspberry Pi Pico filesystem to use it with the Beginner Activities as well as other example programs.
 
 ## **/Beginner Activities**
 A complete beginner curriculum containing beginner learning activities for BEAPER Pico.
@@ -62,13 +64,13 @@ A MicroPython ST7789 LCD driver module for BEAPER Pico along with example LCD pr
 
 
 ## **/SONAR**
-An HC-SR04(P) SONAR module timing test program.
+HC-SR04(P) SONAR module timing test program.
+
+* SONAR_Timing_Test.py - SONAR TRIG -> ECHO delay test
 
 
 ## **/VL53L0X**
 A non-blocking VL53L0X ToF (Time of Flight) distance sensor driver module and example programs.
 
 * vl53l0x_nb.py - non-blocking [VL53L0X driver](https://github.com/antirez/VL53L0X.git)
-* BEAPER_Pico.py - BEAPER Pico board support module
-* ToF_SONAR_Comparison.py - Distance, acquisition time comparison (uses LCD)
-* ToF_Robot.py - BEAPER Pico robot using either non-blocking VL53L0X distance sensing or SONAR distance sensing
+* ToF_SONAR_Comparison.py - VL53L0X/HC-SR04P distance, acquisition time comparison (uses LCD)
