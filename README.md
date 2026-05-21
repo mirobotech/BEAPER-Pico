@@ -70,7 +70,15 @@ HC-SR04(P) SONAR module timing test program.
 
 
 ## **/VL53L0X**
-A non-blocking VL53L0X ToF (Time of Flight) distance sensor driver module and example programs.
+A non-blocking VL53L0X ToF (Time-of-Flight) distance sensor driver module and example programs.
 
+* ToF_test.py - a non-blocking distance measurement test
+* ToF_SONAR_Comparison.py - VL53L0X/HC-SR04P distance and measurement time comparison program showing a graphical SONAR representation on BEAPER's LCD
 * vl53l0x_nb.py - non-blocking [VL53L0X driver](https://github.com/antirez/VL53L0X.git)
-* ToF_SONAR_Comparison.py - VL53L0X/HC-SR04P distance, acquisition time comparison (uses LCD)
+
+## **/VL53L4CD**
+A MicroPthon VL53L4CD ToF (Time-of-Flight) distance sensor driver module and example programs.
+
+* ToF_SONAR_Comparison.py - VL53L4CD/HC-SR04P distance and measurement time comparison program showing a graphical SONAR representation on BEAPER's LCD
+* VL53L4CD.py - VL53L4CD driver with detailed non-blocking distance measurement and a simplified blocking distance measurement mode
+* VL53L4CD_test.py - a non-blocking distance measurement test
