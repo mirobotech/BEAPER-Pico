@@ -6,17 +6,17 @@
 
 This repository contains:
 
-## **/Arduino**
+## /Arduino
 
 * BEAPERPico.h - C board header file
 
 An example C header file created to allow BEAPER Pico to be programmed using the Arduino IDE and the [arduino-pico core](https://github.com/earlephilhower/arduino-pico).
 
-## **BEAPER_Pico.py**
+## BEAPER_Pico.py
 
-A MicroPython board support module for BEAPER Pico. Copy BEAPER_Pico.py into the Raspberry Pi Pico filesystem to use it with the Beginner Activities as well as other example programs.
+A MicroPython board support module for BEAPER Pico. Copy the BEAPER_Pico.py file into the Raspberry Pi Pico filesystem. Required for all BEAPER Pico Beginner Activities as well as many other example BEAPER Pico programs.
 
-## **/Beginner Activities**
+## /Beginner Activities
 A complete beginner curriculum containing beginner learning activities for BEAPER Pico.
 
 Each beginner activity consists of an example program, Guided Exploration Activities to build understanding, and Extension Activities to practice learned skills. Some beginner activities include additional extension projects.
@@ -50,7 +50,7 @@ Each beginner activity consists of an example program, Guided Exploration Activi
 * Sumo_Robot.py - Sumo robot capstone project template
 
 
-## **/LCD**
+## /LCD
 A MicroPython ST7789 LCD driver module for BEAPER Pico along with example LCD programs.
 
 * LCD.py - MicroPython LCD driver module
@@ -60,23 +60,23 @@ A MicroPython ST7789 LCD driver module for BEAPER Pico along with example LCD pr
 * Text_Comparison.py - compare built-in font with selected TrueType font
 * bar-graph.py - bar graph function module
 * Bar_Graph_Demo.py - bar graph demo program
-* Fonts - A selection of TrueType fonts converted for use with LCD.py
+* /Fonts - A selection of TrueType fonts converted for use with LCD.py
 
 
-## **/SONAR**
+## /SONAR
 HC-SR04(P) SONAR module timing test program.
 
 * SONAR_Timing_Test.py - SONAR TRIG -> ECHO delay test
 
 
-## **/VL53L0X**
+## /VL53L0X
 A non-blocking VL53L0X ToF (Time-of-Flight) distance sensor driver module and example programs.
 
 * ToF_test.py - a non-blocking distance measurement test
 * ToF_SONAR_Comparison.py - VL53L0X/HC-SR04P distance and measurement time comparison program showing a graphical SONAR representation on BEAPER's LCD
 * vl53l0x_nb.py - non-blocking [VL53L0X driver](https://github.com/antirez/VL53L0X.git)
 
-## **/VL53L4CD**
+## /VL53L4CD
 A MicroPthon VL53L4CD ToF (Time-of-Flight) distance sensor driver module and example programs.
 
 * ToF_SONAR_Comparison.py - VL53L4CD/HC-SR04P distance and measurement time comparison program showing a graphical SONAR representation on BEAPER's LCD
