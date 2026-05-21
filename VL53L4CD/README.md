@@ -1,15 +1,15 @@
 # VL53L4CD MicroPython Driver
 
-A pure-MicroPython driver for the **ST VL53L4CD** time-of-flight distance sensor, ported from ST's official C ULD (Ultra-Lite Driver) API v2.2.3.
+A pure-MicroPython driver for the **ST VL53L4CD** time-of-flight distance sensor. This driver is ported from ST's official C ULD (Ultra-Lite Driver) API v2.2.3.
 
 ---
 
 ## Features
 
-- Simple one-call `get_range()` method for beginner and robotics projects
+- Simple one-call `get_range()` method for beginner/robotics projects
 - Full sensor API: timing, offset, cross-talk, sigma and signal thresholds, detection windows, temperature recalibration
 - Non-blocking `data_ready()` / `get_result()` path for advanced use
-- Meaningful error codes rather than a bare `-1`
+- Meaningful error codes (rather than a bare `-1`)
 - No dependencies beyond the MicroPython standard library (`machine`, `time`, `micropython`)
 
 ---
@@ -18,7 +18,7 @@ A pure-MicroPython driver for the **ST VL53L4CD** time-of-flight distance sensor
 
 The VL53L4CD measures distances from roughly **1 mm to 1300 mm** with up to ±3 mm accuracy. It communicates over **I2C** (default address `0x29`) and runs from a 2.6–3.5 V supply.
 
-Breakout boards from Pololu, SparkFun, Adafruit, and others work directly with any 3.3 V MicroPython board (Raspberry Pi Pico, ESP32, etc.).
+Full VL53L4CD details and resources are available from [https://www.st.com/en/imaging-and-photonics-solutions/vl53l4cd.html](https://www.st.com/en/imaging-and-photonics-solutions/vl53l4cd.html).
 
 ---
 
@@ -57,7 +57,7 @@ while True:
         print("Sensor fault")
 ```
 
-`get_range()` blocks until the sensor has a result ready, clears the interrupt automatically, and returns the distance in millimetres as a plain integer. Negative return values are error codes (see below).
+`get_range()` blocks (~50ms) until the sensor has a result ready, clears the interrupt automatically, and returns the distance in millimetres as a plain integer. Negative return values are error codes (see below).
 
 ---
 
@@ -85,7 +85,7 @@ The constructor boots the sensor, writes the default configuration, runs VHV cal
 | `start_ranging()` | Begin measurements. Uses continuous mode if `inter_measurement_ms` is 0 (the default), autonomous mode otherwise |
 | `stop_ranging()` | Stop measurements |
 | `data_ready()` | Returns `True` when a new result is waiting to be read |
-| `clear_interrupt()` | Clears the data-ready flag; must be called after every `get_result()` call (called automatically by `get_range()`) |
+| `clear_interrupt()` | Clears the data-ready flag. Must be called after every `get_result()` call (gets called automatically by `get_range()`) |
 
 ---
 
@@ -106,6 +106,7 @@ Waits for a result, reads it, clears the interrupt, and returns one of:
 | −2 | `ERR_SIGMA_HIGH` | Measurement noise above threshold — result unreliable; try a longer timing budget or clean the lens |
 | −3 | `ERR_WRAP_AROUND` | Target may be beyond ~1300 mm unambiguous range |
 | −4 | `ERR_HARDWARE` | Sensor hardware or algorithm fault |
+
 
 #### `get_result()` — full detail, non-blocking
 
