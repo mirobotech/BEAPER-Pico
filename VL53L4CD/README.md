@@ -16,7 +16,7 @@ A pure-MicroPython driver for the **ST VL53L4CD** time-of-flight distance sensor
 
 ## Hardware
 
-The VL53L4CD measures distances from roughly **1 mm to 1300 mm** with up to ±3 mm accuracy. It communicates over **I2C** (default address `0x29`) and runs from a 2.6–3.5 V supply.
+The VL53L4CD ToF sensor measures distances from roughly **1 mm to 1300 mm** with up to ±3 mm accuracy. It connects over **I2C** at default address `0x29`.
 
 Full VL53L4CD details and resources are available from [https://www.st.com/en/imaging-and-photonics-solutions/vl53l4cd.html](https://www.st.com/en/imaging-and-photonics-solutions/vl53l4cd.html).
 
@@ -91,7 +91,7 @@ The constructor boots the sensor, writes the default configuration, runs VHV cal
 
 ### Reading results
 
-#### `get_range()` — simple, blocking
+#### `get_range()` — simple, blocking range measurement
 
 ```python
 dist = tof.get_range()
@@ -104,7 +104,7 @@ Waits for a result, reads it, clears the interrupt, and returns one of:
 | ≥ 0 | — | Valid distance in mm |
 | −1 | `ERR_NO_TARGET` | Signal too low — nothing in range, or target absorbs too much light |
 | −2 | `ERR_SIGMA_HIGH` | Measurement noise above threshold — result unreliable; try a longer timing budget or clean the lens |
-| −3 | `ERR_WRAP_AROUND` | Target may be beyond ~1300 mm unambiguous range |
+| −3 | `ERR_WRAP_AROUND` | Target may be beyond ~1300mm unambiguous range |
 | −4 | `ERR_HARDWARE` | Sensor hardware or algorithm fault |
 
 
