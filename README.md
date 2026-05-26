@@ -14,7 +14,7 @@ An example C header file created to allow BEAPER Pico to be programmed using the
 
 ## BEAPER_Pico.py
 
-A MicroPython board support module for BEAPER Pico. Copy the BEAPER_Pico.py file into the Raspberry Pi Pico filesystem. Required for all BEAPER Pico Beginner Activities as well as many other example BEAPER Pico programs.
+A MicroPython board support module for BEAPER Pico. BEAPER_Pico.py is used by all beginner activities and most other BEAPER Pico example programs. See **BEAPER_Pico_README.md** for details.
 
 ## /Beginner Activities
 A complete beginner curriculum containing beginner learning activities for BEAPER Pico.
