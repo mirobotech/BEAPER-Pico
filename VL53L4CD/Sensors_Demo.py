@@ -1,6 +1,6 @@
 """
 ================================================================================
-Sensors.py
+Sensors_Demo.py
 Updated: May 29, 2026
 
 A radar read-out style graphical display for BEAPER Pico showing Q1, Q2, and Q3
