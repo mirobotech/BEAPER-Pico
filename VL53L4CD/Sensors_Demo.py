@@ -1,7 +1,17 @@
 """
 ================================================================================
 Sensors_Demo.py
-Updated: May 29, 2026
+Updated: June 1, 2026
+
+A radar read-out style graphical display for BEAPER Pico showing Q1, Q2, and Q3
+floor sensor reflectivity, battery voltage, die temperature, and distance to the
+closest target. Distance can be measured using one of:
+
+- HC-SR04P ultrasonic SONAR distance sensor module
+- VL53L0X LASER ToF (Time-of-flight) distance sensor module
+- VL53L4CD LASER ToF (Time-of-flight) distance sensor module
+
+This program is pre-configured for the VL53L4CD ToF module.
 
 A radar read-out style graphical display for BEAPER Pico showing Q1, Q2, and Q3
 floor sensor reflectivity, battery voltage, die temperature, and distance to the
