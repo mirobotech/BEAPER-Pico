@@ -1,3 +1,13 @@
+# VL53L4CD
+
+A MicroPython driver program and example programs for use with VL53L4CD ToF (Time-of-Flight) LASER distance sensor modules and the BEAPER Pico circuit.
+
+* Sensors_Demo.py - a demo program using BEAPER Pico's LCD to show a radar-like parameter display including floor sensor reflectivity, Raspberry Pi Pico system input voltage, Raspberry Pi Pico die temperature, and distance read from either: HC-SR04P SONAR distance sensor module, VL53L0X ToF (Time-of-Flight) LASER distance sensor module, or VL53L4CD ToF LASER distance sensor module.
+* ToF_SONAR_Comparison.py - a demo program using BEAPER Pico's LCD to compare VL53L4CD ToF and HC-SR04P SONAR distance and measurement time with a graphical oscilloscope view of the SONAR TRIG and ECHO signals.
+* VL53L4CD_test.py - a simple distance measurement test
+* VL53L4CD.py – a VL53L4CD driver module
+
+
 # VL53L4CD MicroPython Driver
 
 A pure-MicroPython driver for the **ST VL53L4CD** time-of-flight distance sensor. This driver is ported from ST's official C ULD (Ultra-Lite Driver) API v2.2.3.

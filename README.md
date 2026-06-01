@@ -1,84 +1,236 @@
-# BEAPER-Pico
+# What is BEAPER Pico?
 
-### Beginner Electronics and Programming Educational Robot (BEAPER) for Raspberry Pi Pico
+**BEAPER** (Beginner Electronics and Programming Educational Robot) **Pico** is a fully-integrated beginner circuit designed for learning Raspberry Pi Pico programming and robotics using Thonny or other MicroPython IDEs. See the [BEAPER Pico](https://mirobo.tech/beaper) web page for more details.
 
-[BEAPER Pico](https://mirobo.tech/beaper) is a circuit kit for learning and teaching beginner microcontroller programming, electronics, and robotics with Raspberry Pi Pico microcontrollers and MicroPython.
+## Compatible Hardware
 
-This repository contains:
+BEAPER_Pico.py supports any Raspberry Pi Pico family module:
 
-## /Arduino
+- Raspberry Pi Pico
+- Raspberry Pi Pico 2
+- Raspberry Pi Pico W
+- Raspberry Pi Pico 2 W
 
-* BEAPERPico.h - C board header file
+## On-Board Hardware
 
-An example C header file created to allow BEAPER Pico to be programmed using the Arduino IDE and the [arduino-pico core](https://github.com/earlephilhower/arduino-pico).
+| Hardware | Details |
+|---|---|
+| Pushbutton switches | 4 user buttons (SW2–SW5) with internal pull-ups |
+| LEDs | 4 user LEDs (LED2–LED5), shared with motor driver |
+| Piezo buzzer | PWM tone generation (LS1) |
+| Motor driver | SH754410NE — two DC motors forward/reverse, or one bipolar stepper |
+| Analog potentiometers | Two pots (RV1, RV2) — jumper-selectable |
+| Ambient light sensor | TEPT4400 (Q4) — jumper-selectable |
+| Floor/line sensors | IR LED + phototransistor modules (Q1, Q2, Q3) — jumper-selectable |
+| SONAR header | 3.3V I/O headers H1–H4 for HC-SR04P ultrasonic distance sensor |
+| Servo headers | Three 5V servo/output headers (H5–H7) |
+| I2C/QWIIC connector | JST-SH connector for 3.3V I2C devices |
+| LCD/SPI header | Optional 1.54" 240×240 ST7789 TFT LCD display |
+| Pico LED | On-board Raspberry Pi Pico LED |
 
-## BEAPER_Pico.py
+# BEAPER_Pico.py
 
-A MicroPython board support module for BEAPER Pico. BEAPER_Pico.py is used by all beginner activities and most other BEAPER Pico example programs. See **BEAPER_Pico_README.md** for details.
+`BEAPER_Pico.py` is a MicroPython board support module for BEAPER Pico. It defines and configures the Raspberry Pi Pico's GPIO pins for all of BEAPER Pico's on-board hardware, and provides simple helper functions so beginners can focus on learning programming concepts first — no other special libraries are required.
 
-## /Beginner Activities
-A complete beginner curriculum containing beginner learning activities for BEAPER Pico.
+`BEAPER_Pico.py` is used by all of the BEAPER Pico **Beginner Activities** and most of the other example programs for BEAPER Pico.
 
-Each beginner activity consists of an example program, Guided Exploration Activities to build understanding, and Extension Activities to practice learned skills. Some beginner activities include additional extension projects.
+## Getting Started
 
-* BEAPER_Pico.py - BEAPER Pico board support module
-* Activity_B01_Output.py - Output, program structure
-* Activity_B02_Timing.py - Output with timing (blocking)
-* Activity_B03_Input.py - Input programming activity, including logic states
-* Activity_B04_Constants_Variables.py - Constants and Variables activity
-* B04_Constants_Variables_Exploration.py - Constants and Variables extension project
-* Activity_B05_Decision_Structures.py - Decision structures and comparison operators
-* Activity_B06_Conditional_Loops.py - Conditional while loops
-* Activity_B07_Counted_Loops.py - For loops
-* Activity_B08_Functions.py - Creating and using functions
-* Activity_B09_Analog_Input.py - Reading and processing analog input values
-* Activity_B10_Analog_Output.py - Controlling real-world outputs
-* B10_Motor_Controller_Project.py - PWM motor output project
-* B10_Servo_Controller_Project.py - Servo output project
-* B10_Sound_Controller_Project.py - Sound output project
-* Activity_B11_Non-Blocking_Timing.py - Multiple concurrent timers
-* B11_Timed_Analog_Output.py - Non-blocking timing project
-* Activity_B12_State_Machines.py - A new way to structure programs
-* B12_Combination_Lock_Project.py - Digital safe project
-* Microcontroller Core Curriculum.md - Curriculum overview
-* Numeric Types.md - Numeric types explainer
-* Capstone Preparation Guide - Capstone project explainer
-* Analog_Monitor.py - Analog monitor capstone project template
-* Line_Follower.py - Line following robot capstone project template
-* NeoPixel_Controller.py - NeoPixel lighting effects capstone project template
-* Simon_Game.py - Memory game capstone project template
-* Sumo_Robot.py - Sumo robot capstone project template
+1. Copy `BEAPER_Pico.py` to your Raspberry Pi Pico (e.g. using Thonny).
+2. Import the module at the top of your program:
 
+```python
+import BEAPER_Pico as beaper
+```
+or
+```python
+from BEAPER_Pico import *
+```
 
-## /LCD
-A MicroPython ST7789 LCD driver module for BEAPER Pico along with example LCD programs.
+3. Start using the helper functions — no additional setup needed.
 
-* LCD.py - MicroPython LCD driver module
-* LCDConfig_Pico.py - BEAPER Pico LCD driver configuration file
-* LCD_Demo.py - graphics primitives drawing/timing test
-* Breakout.py - block breaker game
-* Text_Comparison.py - compare built-in font with selected TrueType font
-* bar-graph.py - bar graph function module
-* Bar_Graph_Demo.py - bar graph demo program
-* /Fonts - A selection of TrueType fonts converted for use with LCD.py
+## Analog Jumper Settings
 
+BEAPER Pico has on-board jumpers that select which analog devices are connected to the ADC pins. **Set jumpers before running programs that use analog inputs.**
 
-## /SONAR
-HC-SR04(P) SONAR module timing test program.
+| Jumper position | ADC0 (GP26) | ADC1 (GP27) | ADC2 (GP28) |
+|---|---|---|---|
+| **Enviro.** | Light sensor Q4 | Potentiometer RV1 | Potentiometer RV2 |
+| **Robot** | Floor sensor Q1 | Line sensor Q2 | Floor/line sensor Q3 |
 
-* SONAR_Timing_Test.py - SONAR TRIG -> ECHO delay test
+## Function Reference
 
+### Pico On-Board LED
 
-## /VL53L0X
-A non-blocking VL53L0X ToF (Time-of-Flight) distance sensor driver module and example programs.
+```python
+pico_led_on()       # Turn Pico LED on
+pico_led_off()      # Turn Pico LED off
+pico_led_toggle()   # Toggle Pico LED
+```
 
-* ToF_test.py - a non-blocking distance measurement test
-* ToF_SONAR_Comparison.py - VL53L0X/HC-SR04P distance and measurement time comparison program showing a graphical SONAR representation on BEAPER's LCD
-* vl53l0x_nb.py - non-blocking [VL53L0X driver](https://github.com/antirez/VL53L0X.git)
+### User LEDs
 
-## /VL53L4CD
-A MicroPthon VL53L4CD ToF (Time-of-Flight) distance sensor driver module and example programs.
+> **Note:** LED pins are shared with the motor driver. Do not use LEDs and motors at the same time.
 
-* ToF_SONAR_Comparison.py - VL53L4CD/HC-SR04P distance and measurement time comparison program showing a graphical SONAR representation on BEAPER's LCD
-* VL53L4CD.py - VL53L4CD driver with detailed non-blocking distance measurement and a simplified blocking distance measurement mode
-* VL53L4CD_test.py - a non-blocking distance measurement test
+```python
+leds_on()           # Turn all four LEDs on
+leds_off()          # Turn all four LEDs off
+
+LED2.value(1)       # Control individual LEDs directly
+LED3.toggle()
+```
+
+Individual LED objects: `LED2`, `LED3`, `LED4`, `LED5`
+
+A tuple of all LEDs is available for iteration: `LEDS`
+
+### Pushbutton Switches
+
+Buttons use internal pull-up resistors — **pressed = 0, released = 1**.
+
+```python
+if SW2.value() == 0:    # Check if SW2 is pressed
+    print("SW2 pressed")
+```
+
+Individual switch objects: `SW2`, `SW3`, `SW4`, `SW5`
+
+A tuple of all switches is available for iteration: `SWITCHES`
+
+### Motors
+
+> **Note:** Motor pins are shared with LED pins. Do not use LEDs and motors at the same time.
+
+```python
+motors_stop()           # Stop both motors
+
+left_motor_forward()    # Left motor forward
+left_motor_reverse()    # Left motor reverse
+left_motor_stop()       # Stop left motor
+
+right_motor_forward()   # Right motor forward
+right_motor_reverse()   # Right motor reverse
+right_motor_stop()      # Stop right motor
+```
+
+> The actual forward/reverse direction of each motor depends on its physical wiring to CON1.
+
+### Piezo Buzzer
+
+```python
+tone(frequency)             # Start a continuous tone (Hz)
+tone(frequency, duration)   # Play a tone for duration (ms), then stop
+noTone()                    # Stop the tone
+noTone(duration)            # Stop the tone, then pause (ms)
+beep()                      # Play a 1000 Hz beep for 100 ms
+beep(duration)              # Play a 1000 Hz beep for duration (ms)
+```
+
+### Analog Inputs
+
+```python
+light_level()   # Ambient light sensor Q4 (JP1 = Enviro.) — brighter → higher
+RV1_level()     # Potentiometer RV1 (JP2 = Enviro.) — clockwise → higher
+RV2_level()     # Potentiometer RV2 (JP3 = Enviro.) — clockwise → higher
+
+Q1_level()      # Floor sensor Q1 (JP1 = Robot) — higher reflectivity → higher
+Q2_level()      # Line sensor Q2 (JP2 = Robot) — higher reflectivity → higher
+Q3_level()      # Floor/line sensor Q3 (JP3 = Robot) — higher reflectivity → higher
+```
+
+All analog functions return a 16-bit value (0–65535).
+
+### System Sensors
+
+```python
+VSYS_volts()        # Supply voltage in volts (reads VSYS / 3 on GP29)
+mcu_temperature()   # Raspberry Pi Pico die temperature in °C
+```
+
+### SONAR Distance Sensor (HC-SR04P)
+
+Connect a 3.3V HC-SR04P module to headers H2 (TRIG) and H3 (ECHO).
+
+```python
+distance = sonar_range()            # Measure distance, default max 100 cm
+distance = sonar_range(200)         # Measure distance, max 200 cm
+```
+
+Return values:
+
+| Value | Meaning |
+|---|---|
+| > 0 | Distance to nearest target in cm |
+| 0 | No target detected within max range |
+| -1 | Timeout waiting for ECHO to start |
+| -2 | Previous ECHO pulse still in progress |
+
+### Servos
+
+```python
+set_servo(SERVO1, 45)   # Set SERVO1 to 45 degrees (0–90)
+set_servo(SERVO2, 0)    # Set SERVO2 to 0 degrees
+set_servo(SERVO3, 90)   # Set SERVO3 to 90 degrees
+```
+
+Servo objects: `SERVO1`, `SERVO2`, `SERVO3` (connected to H5, H6, H7)
+
+A tuple of all servos is available for iteration: `SERVOS`
+
+Default pulse range is 1000–2000 µs over 90°. Adjust `SERVO_MIN_US`, `SERVO_MAX_US`, and `SERVO_RANGE` constants for your servo if needed. Servos initialize to the centre position (≈1.5 ms pulse) — verify this is safe for your application before connecting servos.
+
+### I2C / QWIIC
+
+```python
+devices = QWIIC.scan()      # Scan for I2C devices on connector J4
+```
+
+The `QWIIC` object is a standard MicroPython `I2C` instance on GP4 (SDA) and GP5 (SCL) and is compatible with any 3.3V I2C or QWIIC device.
+
+### Digital I/O Headers
+
+Headers H1–H4 provide 3.3V digital I/O via GP6–GP9 and can be used as general-purpose inputs or outputs in addition to their SONAR role.
+
+```python
+H1 = Pin(H1_PIN, Pin.OUT)   # Example: configure H1 as output
+H4 = Pin(H4_PIN, Pin.IN)    # Example: configure H4 as input
+```
+
+Pin constants: `H1_PIN` (6), `H2_PIN` (7), `H3_PIN` (8), `H4_PIN` (9)
+
+## GPIO Pin Map
+
+| GPIO | Function |
+|---|---|
+| GP0 | SW2 pushbutton (pull-up) |
+| GP1 | SW3 pushbutton (pull-up) |
+| GP2 | SW4 pushbutton (pull-up) |
+| GP3 | SW5 pushbutton (pull-up) |
+| GP4 | I2C SDA (QWIIC J4) |
+| GP5 | I2C SCL (QWIIC J4) |
+| GP6 | H1 digital I/O |
+| GP7 | H2 digital I/O / SONAR TRIG |
+| GP8 | H3 digital I/O / SONAR ECHO |
+| GP9 | H4 digital I/O |
+| GP10 | LED2 / Motor M1A (left motor A) |
+| GP11 | LED3 / Motor M1B (left motor B) |
+| GP12 | LED4 / Motor M2A (right motor A) |
+| GP13 | LED5 / Motor M2B (right motor B) |
+| GP14 | Piezo buzzer LS1 |
+| GP15 | LCD DC |
+| GP16 | LCD CIPO / backlight |
+| GP17 | LCD CS |
+| GP18 | LCD SCK |
+| GP19 | LCD COPI |
+| GP20 | H5 servo output |
+| GP21 | H6 servo output |
+| GP22 | H7 servo output |
+| GP26 / ADC0 | Light sensor Q4 or floor sensor Q1 (jumper) |
+| GP27 / ADC1 | Potentiometer RV1 or line sensor Q2 (jumper) |
+| GP28 / ADC2 | Potentiometer RV2 or floor/line sensor Q3 (jumper) |
+| GP29 / ADC3 | VSYS voltage monitor (internal) |
+| ADC4 | RP2 die temperature sensor (internal) |
+
+## License
+
+See [LICENSE](LICENSE) for details.
