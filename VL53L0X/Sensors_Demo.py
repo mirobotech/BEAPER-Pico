@@ -154,8 +154,8 @@ lcd.round_rect(0, 200, 240, 50, 10, chassis, True)
 lcd.round_rect(50, 160, 140, 50, 10, chassis, True)
 lcd.round_rect(4, 204, 232, 50, 6, pcb, True)
 lcd.round_rect(54, 164, 132, 50, 10, pcb, True)
-text_x = (240 - lcd.write_width("BEAPER Nano", orbitron28)) // 2
-lcd.write("BEAPER Nano", text_x, 206, orbitron28, lcd.WHITE75, None)
+text_x = (240 - lcd.write_width("BEAPER Pico", orbitron28)) // 2
+lcd.write("BEAPER Pico", text_x, 206, orbitron28, lcd.WHITE75, None)
 lcd.update()
 
 while True:
