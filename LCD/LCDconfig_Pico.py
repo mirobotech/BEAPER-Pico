@@ -1,29 +1,33 @@
-"""
-BEAPER Pico LCD Configuration for 1.54" 240x240 LCD
-Updated: March 22, 2026
-
-Adapted from st7789py_mpy by Russ Hughes:
-https://github.com/russhughes/st7789py_mpy
-"""
+# ================================================================================
+# BEAPER Pico LCD Configuration [LCDconfig_Pico.py]
+# Version: 1.0
+# Updated: August 22, 2026
+#
+# Configuration for the optional 1.54", 240x240 pixel ST7789-based LCD
+# display module mounted on the BEAPER Pico circuit.
+#
+# Adapted from Russ Hughes' st7789py_mpy driver:
+# https://github.com/russhughes/st7789py_mpy
+# ================================================================================
 
 from machine import Pin, SPI
 import LCD as lcd
 
-TFA = 0
-BFA = 80
+TFA  = 0
+BFA  = 80
 WIDE = 1
 TALL = 0
 
 def config(rotation=3):
-    """
-    Configures and returns an instance of the ST7789 display driver.
-
-    Parameters:
-        rotation (int): The rotation of the display. (3 is upright on BEAPER LCD)
-
-    Returns:
-        LCD: An instance of the ST7789 LCD display driver.
-    """
+    # Configure and return an instance of the ST7789 display driver for
+    # BEAPER Pico's LCD.
+    #
+    # Parameters:
+    #     rotation (int): The rotation of the display (0-3).
+    #         3 is upright for the way the LCD is mounted on BEAPER Pico.
+    #
+    # Returns:
+    #     LCD: An instance of the ST7789 LCD display driver.
 
     INIT_CMDS = (
         ( b'\x11', None, 5),        # SLPOUT - Exit sleep mode
