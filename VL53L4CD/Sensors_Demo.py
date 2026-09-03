@@ -1,39 +1,38 @@
-"""
-================================================================================
-Sensors_Demo.py
-Updated: June 8, 2026
-
-A radar read-out style graphical display for BEAPER Pico showing Q1, Q2, and Q3
-floor sensor reflectivity, battery voltage, die temperature, and distance to the
-closest target. Distance can be measured using one of:
-
-- HC-SR04P ultrasonic SONAR distance sensor module
-- VL53L0X LASER ToF (Time-of-flight) distance sensor module
-- VL53L4CD LASER ToF (Time-of-flight) distance sensor module
-
-This program is pre-configured for the VL53L4CD ToF module.
-
-A radar read-out style graphical display for BEAPER Pico showing Q1, Q2, and Q3
-floor sensor reflectivity, battery voltage, die temperature, and distance to the
-closest target.
-
-Platform: mirobo.tech BEAPER Pico circuit
-Requires: BEAPER_Pico.py board support module file
-          LCD.py LCD driver library module
-          LCDconfig_Nano.py LCD configuration module for BEAPER Nano
-          Orbitron_medium_28.py font
-          DotoRounded_semibold_30.py font
-          DotoRounded_20.py font
-          A distance sensor. Choose either:
-          HC-SR04P (3.3V) SONAR distance sensor module, or,
-          VL43L0X I2C ToF distance sensor module and vl53l0x_nb.py driver, or
-          VL53L4CD I2C ToF distance sensor module and VL53L4CD.py driver
-
-Jumper Settings:  JP1 - Robot (Q1/Left floor sensor)
-                  JP2 - Robot.(Q2 left line sensor)
-                  JP3 - Robot (Q3/Right floor sensor)
-================================================================================
-"""
+# ================================================================================
+# Sensors_Demo.py
+# Version: 1.1
+# Updated: September 3, 2026
+# 
+# A radar read-out style graphical display for BEAPER Pico showing Q1, Q2, and Q3
+# floor sensor reflectivity, battery voltage, die temperature, and distance to the
+# closest target. Distance can be measured using one of:
+# 
+# - HC-SR04P ultrasonic SONAR distance sensor module
+# - VL53L0X LASER ToF (Time-of-flight) distance sensor module
+# - VL53L4CD LASER ToF (Time-of-flight) distance sensor module
+# 
+# This program is pre-configured for the VL53L4CD ToF module.
+# 
+# A radar read-out style graphical display for BEAPER Pico showing Q1, Q2, and Q3
+# floor sensor reflectivity, battery voltage, die temperature, and distance to the
+# closest target.
+# 
+# Platform: mirobo.tech BEAPER Pico circuit
+# Requires: BEAPER_Pico.py board support module file
+#           LCD.py LCD driver library module
+#           LCDconfig_Nano.py LCD configuration module for BEAPER Nano
+#           Orbitron_medium_28.py font
+#           DotoRounded_semibold_30.py font
+#           DotoRounded_20.py font
+#           A distance sensor. Choose either:
+#           HC-SR04P (3.3V) SONAR distance sensor module, or,
+#           VL43L0X I2C ToF distance sensor module and vl53l0x_nb.py driver, or
+#           VL53L4CD I2C ToF distance sensor module and VL53L4CD.py driver
+# 
+# Jumper Settings:  JP1 - Robot (Q1/Left floor sensor)
+#                   JP2 - Robot.(Q2 left line sensor)
+#                   JP3 - Robot (Q3/Right floor sensor)
+# ================================================================================
 
 # --- MicroPython Modules --------------
 from machine import Pin, PWM, I2C, ADC
@@ -54,20 +53,20 @@ import DotoRounded_20 as doto20
 
 # Configure ToF sensor. Un-comment either VL53L0X or VL53L4CD configuration
 
-"""
-# Configure VL53L0X sensor -----------------------------------------
-# Import VL53L0X driver module
-from vl53l0x_nb import VL53L0X
+# 
+# # Configure VL53L0X sensor -----------------------------------------
+# # Import VL53L0X driver module
+# from vl53l0x_nb import VL53L0X
+# 
+# # Testing: VL53L0X device should answer I2C scan at address 41
+# # print("I2C scan:", beaper.QWIIC.scan())
+# 
+# # Create tof sensor object
+# tof = VL53L0X(beaper.QWIIC)
+# # Start first range request (non-blocking)
+# tof.start_range_request()
+# # ------------------------------------------------------------------
 
-# Testing: VL53L0X device should answer I2C scan at address 41
-# print("I2C scan:", beaper.QWIIC.scan())
-
-# Create tof sensor object
-tof = VL53L0X(beaper.QWIIC)
-# Start first range request (non-blocking)
-tof.start_range_request()
-# ------------------------------------------------------------------
-"""
 
 # Configure VL53L4CD sensor ----------------------------------------
 # Import VL53L4CD driver module
@@ -179,18 +178,18 @@ while True:
 
     # Un-comment one of the three distance sensor sections
 
-    """
-    # Read VL53L0X distance sensor ------------------------------------
-    if tof.reading_available():
-        # Single measurement has larger distance variation
-        # tof_range_mm = tof.get_range_value() + TOF_OFFSET
-
-        # Average of two measurements produces slightly smoother results
-        range_mm = (range_mm + tof.get_range_value() + TOF_OFFSET) // 2
-        # Start new measurement
-        tof.start_range_request()
-    # -----------------------------------------------------------------
-    """
+    
+#     # Read VL53L0X distance sensor ------------------------------------
+#     if tof.reading_available():
+#         # Single measurement has larger distance variation
+#         # tof_range_mm = tof.get_range_value() + TOF_OFFSET
+# 
+#         # Average of two measurements produces slightly smoother results
+#         range_mm = (range_mm + tof.get_range_value() + TOF_OFFSET) // 2
+#         # Start new measurement
+#         tof.start_range_request()
+#     # -----------------------------------------------------------------
+    
     
     # Read VL53L4CD distance sensor -----------------------------------
     if tof.data_ready():
@@ -199,11 +198,11 @@ while True:
         range_mm = result['distance_mm']
     # -----------------------------------------------------------------
   
-    """
-    # Read SONAR distance sensor --------------------------------------
-    range_mm = int(beaper.sonar_range(MAX_TARGET_RANGE) * 10)
-    # -----------------------------------------------------------------
-    """
+    
+#     # Read SONAR distance sensor --------------------------------------
+#     range_mm = int(beaper.sonar_range(MAX_TARGET_RANGE) * 10)
+#     # -----------------------------------------------------------------
+    
 
     # Ignore far away targets
     if range_mm > MAX_TARGET_RANGE:
