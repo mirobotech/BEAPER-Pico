@@ -1,7 +1,7 @@
 # ================================================================================
 # BEAPER Pico LCD Configuration [LCDconfig_Pico.py]
-# Version: 1.0
-# Updated: August 22, 2026
+# Version: 1.1
+# Updated: September 4, 2026
 #
 # Configuration for the optional 1.54", 240x240 pixel ST7789-based LCD
 # display module mounted on the BEAPER Pico circuit.
@@ -24,7 +24,7 @@ def config(rotation=3):
     #
     # Parameters:
     #     rotation (int): The rotation of the display (0-3).
-    #         3 is upright for the way the LCD is mounted on BEAPER Pico.
+    #         3 is upright for the LCD orientation on BEAPER Pico.
     #
     # Returns:
     #     LCD: An instance of the ST7789 LCD display driver.
