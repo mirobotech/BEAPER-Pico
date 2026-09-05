@@ -1,20 +1,21 @@
-"""
-BEAPER Pico Layered Graphics Demo
-Updated: June 2, 2026
-
-Displays an Intersex-Inclusive Progress Pride Flag created using layered
-graphics primitives. (Learn more about the different Pride flags here:
-https://www.hrc.org/resources/lgbtq-pride-flags)
-
-The colours are stored in MicroPython tuples allowing the stripes to be
-animated when pushbutton SW4 is held.
-
-Requires:
-    BEAPER_Pico.py    - BEAPER Pico board configuration file
-    LCDconfig_Pico.py - LCD configuration file for BEAPER Pico
-    LCD.py            - LCD driver module
-
-"""
+# ==============================================================================
+# BEAPER Pico Layered Graphics Demo
+# Version: 1.1
+# Updated: September 4, 2026
+#
+# Displays an Intersex-Inclusive Progress Pride Flag created using layered
+# graphics primitives. (Learn more about the different Pride flags here:
+# https://www.hrc.org/resources/lgbtq-pride-flags)
+#
+# The colours are stored in MicroPython tuples allowing the stripes to be
+# animated when pushbutton SW4 is held. The first shapes be be drawn become
+# the lower layers of the image. Shapes drawn later appear as upper layers.
+#
+# Requires:
+#     BEAPER_Pico.py    - BEAPER Pico board configuration file
+#     LCDconfig_Pico.py - LCD configuration file for BEAPER Pico
+#     LCD.py            - LCD driver module for ST7789 displays
+# ==============================================================================
 
 import BEAPER_Pico as beaper         # BEAPER Pico board module
 import LCDconfig_Pico as lcd_config  # LCD configuration file (calls LCD.py driver)
