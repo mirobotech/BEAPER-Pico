@@ -48,6 +48,12 @@ while True:
 # MicroPython editor you're using treat the comments differently from the
 # actual program code?
 #
+# In later GE and EA sections you'll be asked to modify or replace the code
+# in your program. When copying activity code into your program you'll need
+# to strip out the pound characters in order for the code to run. It's easy
+# to toggle code comments on or off by selecting one of more lines of text
+# and then choosing 'Toggle comment' from the Edit menu in Thonny.
+#
 # --------------------------------------------------------------------------------
 # GE 2 - Importing the board module
 # --------------------------------------------------------------------------------
@@ -167,9 +173,8 @@ while True:
 #     beaper.LED3.value(1)  # LED3 on
 #     beaper.LED3.value(0)  # LED3 off
 #
-# Reminder: easily remove comment pound signs '#' from multiple lines of
-# code by highlighting the lines and pressing CMD-/ on macOS, or CTRL-/ on
-# Windows.
+# Reminder: easily remove pound symbol '#' comments from multiple lines of code
+# by highlighting the lines and selecting 'Toggle comment' from the Edit menu.
 #
 # Since these two statements are now inside the main loop, 'pass' is no
 # longer needed. The loop will run each statement once, first turning LED3
