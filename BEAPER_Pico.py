@@ -1,13 +1,13 @@
 # ==============================================================================
 # BEAPER Pico Board Module [BEAPER_Pico.py]
 # Version: 1.2
-# Updated: July 12, 2026
+# Updated: September 5, 2026
 # 
 # Board support module for the mirobo.tech BEAPER Pico circuit.
 # 
 # This module configures Raspberry Pi Pico's GPIO pins for BEAPER
 # Pico's on-board circuits and provides simple helper functions to
-# enable beginners to focus on learning programming concepts first.
+# enable beginners to focus on learning programming concepts quickly.
 # 
 # Before getting started with it you should know:
 # - nothing here is hidden, or **magic**, or requires special libraries
@@ -15,7 +15,7 @@
 # - you're encouraged to modify the code to make it work better for you!
 # 
 # BEAPER Pico hardware notes:
-# - Buttons use internal pull-up resistors (so pressed == 0)
+# - Buttons use internal pull-up resistors (pressed == 0)
 # - LEDs and motor driver share I/O pins (so much I/O, so few I/O pins!)
 # - Analog jumpers on BEAPER Pico must be set to connect sensors to pins:
 #     - Enviro. position selects light sensor Q4, and pots RV1 and RV2
@@ -52,10 +52,10 @@ def pico_led_toggle():
 # IMPORTANT: LED pins are shared with the motor controller. Using the
 # LEDs while the the motors are active will affect motor behavior!
 
-LED2_PIN = const(10)  # Motor 1A (Motor 1 = left motor)
-LED3_PIN = const(11)  # Motor 1B
-LED4_PIN = const(12)  # Motor 2A (Motor 2 = right motor)
-LED5_PIN = const(13)  # Motor 2B
+LED2_PIN = const(10)  # LED2 and Motor 1A (Motor 1 = left motor)
+LED3_PIN = const(11)  # LED3 and Motor 1B
+LED4_PIN = const(12)  # LED4 and Motor 2A (Motor 2 = right motor)
+LED5_PIN = const(13)  # LED5 and Motor 2B
 # Note: const() stores fixed values in ROM to save RAM
 
 LED2 = Pin(LED2_PIN, Pin.OUT)
@@ -95,6 +95,7 @@ SW5 = Pin(SW5_PIN, Pin.IN, Pin.PULL_UP)
 
 SWITCHES = (SW2, SW3, SW4, SW5)  # Tuple of all pushbutton switch pins.
 # Useful for iterating through all SWITCHES - see LEDS examples, above.
+
 
 # ------------------------------------------------------------------------------
 # BEAPER Pico Motor Controller
@@ -145,7 +146,7 @@ def right_motor_stop():
     
 
 # ------------------------------------------------------------------------------
-# BEAPER Pico Piezo Buzzer (BEAPER's beeper!)
+# BEAPER Pico Piezo Speaker
 # ------------------------------------------------------------------------------
 
 # Generate tones using PWM (similar to Arduino tone() functions)
@@ -223,9 +224,9 @@ def VSYS_volts():
 
 def mcu_temperature():
     # Read MCU die temp in degrees C. From the Raspberry Pi Pico datasheet:
-    # The temperature sensor measures the Vbe voltage of a biased bipolar
+    # "The temperature sensor measures the Vbe voltage of a biased bipolar
     # diode, connected to the fifth ADC channel. Typically, Vbe = 0.706V
-    # at 27 degrees C, with a slope of -1.721mV (0.001721) per degree.
+    # at 27 degrees C, with a slope of -1.721mV (0.001721) per degree."
     mcu_temp_volts = MCU_TEMP.read_u16() * 3.3 / 65535
     return 27 - (mcu_temp_volts - 0.706) / 0.001721
 
@@ -250,6 +251,7 @@ H1_PIN = const(6)   # H1
 H2_PIN = const(7)   # H2 (SONAR TRIG)
 H3_PIN = const(8)   # H3 (SONAR ECHO)
 H4_PIN = const(9)   # H4
+
 
 # Ultrasonic SONAR distance measurement function. Returns the distance
 # to the nearest target within max_range in cm (defaults to 1m).
@@ -297,7 +299,7 @@ def sonar_range(_max_range=100):
 
 
 # ------------------------------------------------------------------------------
-# 5V Digital Output Headers H5-H8 (supports 3 servos)
+# 5V Digital Output Headers H5-H8 (supports up to 3 servos)
 # ------------------------------------------------------------------------------
 
 # 5V Digital output headers (output only)
