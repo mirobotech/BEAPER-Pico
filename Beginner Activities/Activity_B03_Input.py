@@ -198,7 +198,7 @@ while True:
 # --------------------------------------------------------------------------------
 #
 # The logical 'or' operator can also be used in conditional expressions.
-# Predict when the LED would be lit if the 'and' operator in GE 5 was to be
+# Predict when the LED would be lit if the 'and' operator in GE 5 were
 # replaced with 'or'. Try it in your program to verify your prediction.
 
 
@@ -211,7 +211,7 @@ while True:
 # get into the habit of adding comments like the ones you saw in the
 # starter program — a comment that explains *why* code is written a
 # certain way is often more valuable than one that just describes
-# *what* it does. Future you will thank present you.
+# *what* it does. Future you will thank present you!
 #
 # --------------------------------------------------------------------------------
 # EA 1 - Start/Stop buttons
@@ -253,7 +253,7 @@ while True:
 # Imagine that you're creating a turn signal circuit for a bicycle. The
 # circuit has four LEDs in a row, just like your circuit, controlled by two
 # pushbuttons mounted on the bicycle's handlebars. Write a program to activate
-# a turn signal using one or more of BEAPER Nano's LEDs to indicate a left or
+# a turn signal using one or more of BEAPER Pico's LEDs to indicate a left or
 # right turn while the corresponding button is held.
 #
 # For an extra challenge, add brake functionality or a bell/horn
