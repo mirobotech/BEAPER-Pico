@@ -1,51 +1,53 @@
-"""
-================================================================================
-Project: Servo Controller [B10_Servo_Controller_Project.py]
-March 31, 2026
+# ================================================================================
+# Project: Servo Controller [B10_Servo_Controller_Project.py]
+# Version: 1.2
+# Updated: September 14, 2026
+#
+# Platform: mirobo.tech BEAPER Pico circuit (any configuration)
+# Requires: BEAPER_Pico.py board module file
+#
+# Before starting this project, re-read GE 1 and GE 3 from
+# Activity 10: Analog Output.
+#
+# IMPORTANT - How servo PWM differs from LED and motor PWM:
+#
+# For LEDs and motors, the duty cycle (proportion of on-time) is
+# what matters. The PWM frequency can vary within a wide range.
+#
+# For hobby servos, position is encoded differently: the servo
+# expects a pulse of a specific width, repeated at a fixed rate.
+# The standard is a 50 Hz signal (one pulse every 20ms), but the
+# pulse width is different depending on the servo's travel angle:
+#
+# For 90 degree travel servos:
+#   - 1.0ms pulse width = full anti-clockwise (~0 degrees)
+#   - 1.5ms pulse width = centre position (~45 degrees)
+#   - 2.0ms pulse width = full clockwise (~90 degrees)
+#
+# For 180 degree travel servos:
+#   - 0.5ms pulse width = full anti-clockwise (~0 degrees)
+#   - 1.5ms pulse width = centre position (~90 degrees)
+#   - 2.5ms pulse width = full clockwise (~180 degrees)
+#
+# Servo connector locations on BEAPER Pico:
+#   H5 - Servo channel 1 (use beaper.set_servo(SERVO1, angle))
+#   H6 - Servo channel 2 (use beaper.set_servo(SERVO2, angle))
+#   H7 - Servo channel 3 (use beaper.set_servo(SERVO3, angle))
+#
+# Note: BEAPER Pico has three servo channels (H5-H7), not four -
+# H8 is shared with the piezo speaker instead of a fourth servo.
+# This project only uses two channels, so the difference doesn't
+# affect the code below.
+#
+# Controls:
+#   RV1 - servo 1 position (0-90 degrees, if pots installed)
+#   RV2 - servo 2 position (0-90 degrees, if pots installed)
+#   SW2/SW5 - servo 1 step clockwise/anti-clockwise (if no pots)
+#   SW3/SW4 - servo 2 step clockwise/anti-clockwise (if no pots)
+# ================================================================================
 
-Platform: mirobo.tech BEAPER Pico circuit (any configuration)
-Requires: BEAPER_Pico.py board module file.
-
-Before starting this project, re-read GE1 and GE3
-from Activity 10: Analog Output.
-
-IMPORTANT - How servo PWM differs from LED and motor PWM:
-
-For LEDs and motors, the duty cycle (proportion of on-time) is
-what matters. The PWM frequency can vary within a wide range.
-
-For hobby servos, position is encoded differently: the servo
-expects a pulse of a specific width, repeated at a fixed rate.
-The standard is a 50 Hz signal (one pulse every 20ms), with the
-pulse width varying to encode position:
-
-For 90 degree travel servos:
-    - 1.0ms pulse width = full anti-clockwise (~0 degrees)
-    - 1.5ms pulse width = centre position (~45 degrees)
-    - 2.0ms pulse width = full clockwise (~90 degrees)
-
-For 180 degree travel servos:
-    - 0.5ms pulse width = full anti-clockwise (~0 degrees)
-    - 1.5ms pulse width = centre position (~90 degrees)
-    - 2.5ms pulse width = full clockwise (~180 degrees)
-
-Servo connector locations on BEAPER Pico:
-    H5 - Servo channel 1 (use beaper.set_servo(beaper.SERVO1, angle))
-    H6 - Servo channel 2 (use beaper.set_servo(beaper.SERVO2, angle))
-    H7 - Servo channel 3 (use beaper.set_servo(beaper.SERVO3, angle))
-
-Note: H8 shares the piezo buzzer pin and is not available as a
-servo output while the buzzer is active.
-
-Controls:
-    RV1 - servo 1 position (0-90 degrees, if pots installed)
-    RV2 - servo 2 position (0-90 degrees, if pots installed)
-    SW2/SW5 - servo 1 step anti-clockwise/clockwise (if no pots)
-    SW3/SW4 - servo 2 step anti-clockwise/clockwise (if no pots)
-================================================================================
-"""
-# IMPORTANT: Copy BEAPER_Pico.py into your Raspberry Pi Pico
-import BEAPER_Pico as beaper
+# IMPORTANT: Copy BEAPER_Pico.py into your Raspberry Pi Pico.
+import BEAPER_Pico as beaper  # Set up BEAPER Pico I/O
 
 import time
 
@@ -102,69 +104,88 @@ while True:
     time.sleep_ms(STEP_DELAY)
 
 
-"""
-Extension Activities
-
-1.  Open BEAPER_Pico.py and read the 'set_servo()' function and
-    the three constants above it: 'SERVO_MIN_US', 'SERVO_MAX_US',
-    and 'SERVO_RANGE'.
-
-    Trace through 'set_servo()' with angle=0, angle=45, and
-    angle=90. What pulse width in microseconds does each produce?
-    Do the results match the 1.0ms, 1.5ms, and 2.0ms values
-    described in the header above?
-
-    The function uses 'servo.duty_ns()' rather than
-    'servo.duty_u16()'. Why is expressing the pulse in nanoseconds
-    more direct for servo control than expressing it as a duty
-    cycle percentage? At 50 Hz (20ms period), what duty_u16 value
-    would correspond to a 1.5ms pulse - calculate it and compare
-    with the 4915 initialisation value used in the board module.
-
-    Try calling 'beaper.set_servo(beaper.SERVO1, 0)',
-    'beaper.set_servo(beaper.SERVO1, 45)', and
-    'beaper.set_servo(beaper.SERVO1, 90)' directly from the
-    console while the program is stopped. Observe the servo
-    position for each call and confirm it matches the calculated
-    pulse widths.
-
-2.  Write a 'sweep(servo, start_angle, end_angle, step_ms)'
-    function that moves a servo smoothly from start_angle to
-    end_angle, pausing step_ms milliseconds between each degree
-    of movement. Use it to create a scanning motion - sweep from
-    0 to 90 and back continuously.
-
-    Note that 'sweep()' uses 'time.sleep_ms()' internally, which
-    blocks the main loop for its full duration. How would you
-    allow two servos to sweep simultaneously? This is the problem
-    Activity 11's non-blocking timing solves.
-
-3.  Implement a servo sequencer: define a sequence of (angle,
-    dwell_ms) pairs representing positions and how long to hold
-    each one. Write a function that steps through the sequence,
-    moving the servo to each angle and waiting the specified time.
-
-    Example sequence for a simple pick-and-place arm:
-
-  sequence = (
-    (10, 800),    # Move to pick position
-    (60, 1500),   # Move to carry position
-    (90, 400),    # Move to place position
-    (60, 500),    # Return to carry position
-  )
-
-    The following code steps through the sequence, sets SERVO1's
-    position, and waits for the dwell time:
-
-  for step in sequence:
-    beaper.set_servo(beaper.SERVO1, step[0])
-    time.sleep_ms(step[1])
-
-4.  Research the pulse width range for the specific servo you are
-    using. Many servos accept a wider range than the standard
-    1.0-2.0ms, allowing more than 90 degrees of travel. Look in
-    BEAPER_Pico.py for constants that set the servo pulse width
-    limits and try adjusting them. What happens if the pulse width
-    exceeds the servo's mechanical limits?
-
-"""
+# ================================================================================
+# Extension Activities
+# ================================================================================
+#
+# --------------------------------------------------------------------------------
+# EA 1 - Reading set_servo()
+# --------------------------------------------------------------------------------
+#
+# Open BEAPER_Pico.py and read the 'set_servo()' function and
+# the three constants above it: 'SERVO_MIN_US', 'SERVO_MAX_US',
+# and 'SERVO_RANGE'.
+#
+# Trace through 'set_servo()' with angle=0, angle=45, and
+# angle=90. What pulse width in microseconds does each produce?
+# Do the results match the 1.0ms, 1.5ms, and 2.0ms values
+# described in the header above?
+#
+# The function uses 'servo.duty_ns()' rather than
+# 'servo.duty_u16()'. Why is expressing the pulse in nanoseconds
+# more direct for servo control than expressing it as a duty
+# cycle percentage? At 50 Hz (20ms period), what duty_u16 value
+# would correspond to a 1.5ms pulse - calculate it and compare
+# with the 4915 initialisation value used in the board module.
+#
+# Try calling 'beaper.set_servo(beaper.SERVO1, 0)',
+# 'beaper.set_servo(beaper.SERVO1, 45)', and
+# 'beaper.set_servo(beaper.SERVO1, 90)' directly from the
+# console while the program is stopped. Observe the servo
+# position for each call and confirm it matches the calculated
+# pulse widths.
+#
+# --------------------------------------------------------------------------------
+# EA 2 - sweep(servo_fn, start_angle, end_angle, step_ms)
+# --------------------------------------------------------------------------------
+#
+# Write a 'sweep(servo_fn, start_angle, end_angle, step_ms)'
+# function that moves a servo smoothly from start_angle to
+# end_angle, pausing step_ms milliseconds between each degree
+# of movement. Use it to create a scanning motion - sweep from
+# 0 to 90 and back continuously.
+#
+# Note that 'sweep()' uses 'time.sleep_ms()' internally, which
+# blocks the main loop for its full duration. How would you
+# allow two servos to sweep simultaneously? This is the problem
+# Activity 11's non-blocking timing solves.
+#
+# --------------------------------------------------------------------------------
+# EA 3 - Servo sequencer
+# --------------------------------------------------------------------------------
+#
+# Implement a servo sequencer: define a sequence of (angle,
+# dwell_ms) pairs representing positions and how long to hold
+# each one. Write a function that steps through the sequence,
+# moving the servo to each angle and waiting the specified time.
+#
+# Example sequence for a simple pick-and-place arm:
+#
+# Example code:
+#
+# sequence = (
+#   (10, 800),   # Move to pick position
+#   (60, 1500),  # Move to carry position
+#   (90, 400),   # Move to place position
+#   (60, 500),   # Return to carry position
+# )
+#
+# The following code reads the sequence, sets SERVO1's position,
+# and waits for the dwell time:
+#
+# Example code:
+#
+# for step in sequence:
+#   beaper.set_servo(beaper.SERVO1, step[0])  # servo position
+#   time.sleep_ms(step[1])  # delay for servo dwell time
+#
+# --------------------------------------------------------------------------------
+# EA 4 - Extended pulse width range
+# --------------------------------------------------------------------------------
+#
+# Research the pulse width range for the specific servo you are
+# using. Many servos accept a wider range than the standard
+# 1.0-2.0ms, allowing more than 90 degrees of travel. Look in
+# BEAPER_Pico.py for constants that set the servo pulse width
+# limits and try adjusting them. What happens if the pulse width
+# exceeds the servo's mechanical limits?
